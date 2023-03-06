@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta name="autor" content="@iAntonAMC">
+    <meta charset="UTF-8">
+    <meta name="description" content="Login for SIVAL">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/static/images">
+    <link rel="stylesheet" type="text/css" href="/static/stylesheets/">
+    <link rel="stylesheet" type="text/css" href="/static/stylesheets/scrollbar.css">  <!-- Scroll_Bar -->
+    <title>SIVAL | LOGIN</title>
+</head>
+
+<body>
+    <header>
+        <a class="logo" href="index.html"><img src="/static/images/" alt="Logo de SIVAL" style="border-radius: 10px;"></a>
+    </header>
+    <main>
+        <h1>Iniciar Sesión</h1>
+        <form action="/mvc/models/login.php" method="post">
+            <table cellpadding="10">
+                <tr>
+                    <td><label for="uid"><h2>Usuario:</h2></label></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="uid" id="uid" placeholder="Ingrese su Nombre de Usuario"></td>
+                </tr>
+                <tr>
+                    <td><label for="pass"></label><h2>Contraseña:</h2></label></td> 
+                </tr>
+                <tr>
+                    <td><input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"></td>
+                </tr>
+            </table>
+            <input type="submit" name="user" id="btnEnv" title="Iniciar">
+        </form>
+    </main>
+</body>
+
+</html>
