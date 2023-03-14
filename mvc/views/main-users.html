@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="autor" content="@GRJR1325" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Interfaz de Usuarios Principal" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/styles.css" rel="stylesheet" />
+
+    <title>UI-Usuarios</title>
+
+    <!-- Google Icons-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="/static/stylesheets/materialize.min.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="navbar-fixed">
+        <nav>
+          <div class="nav-wrapper white">
+            <img
+              class="responsive-img"
+              style="height: 80px"
+              src="/static/images/logo2.png"
+            />
+            <a href="/mvc/views/index.html" class="brand-logo grey-text s2"
+              >SIVAL</a
+            >
+            <ul class="right hide-on-med-and-down">
+              <li>
+                <a href="#">
+                  <i class="large material-icons cyan-text text-darken-4"
+                    >apps</i
+                  >
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="large material-icons cyan-text text-darken-4"
+                    >note_add</i
+                  >
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="large material-icons cyan-text text-darken-4"
+                    >account_box</i
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="container1">
+        <div class="row">
+          <div class="col l2">
+            <div class="collection">
+              <a href="#!" class="collection-item"
+                ><span class="badge"> <i class="material-icons">home</i></span
+                >Inicio</a
+              >
+              <a href="#!" class="collection-item"
+                ><span class="badge"> <i class="material-icons">people</i></span
+                >Alumnos</a
+              >
+              <a href="#!" class="collection-item"
+                ><span class="badge">
+                  <i class="material-icons">business</i></span
+                >Laboratorios</a
+              >
+              <a href="#!" class="collection-item"
+                ><span class="badge">
+                  <i class="material-icons">person_add</i></span
+                >Usuarios</a
+              >
+              <a href="#!" class="collection-item"
+                ><span class="badge">
+                  <i class="material-icons">find_in_page</i></span
+                >Consultas</a
+              >
+
+              <div class="divider green"></div>
+            </div>
+          </div>
+          <div class="col l10">
+            <div class="column">
+              <div
+                class="col l12"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <h5>INICIO</h5>
+              </div>
+            </div>
+
+            PRINCIPAL
+            <div class="divider green"></div>
+            <h2>Bienvenido %User%</h2>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer></footer>
+
+    <script type="text/javascript" src="/static/js/materialize.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var elems = document.querySelectorAll(".slider");
+        var instances = M.Slider.init(elems);
+      });
+    </script>
+  </body>
+</html>
