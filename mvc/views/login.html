@@ -1,42 +1,77 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="autor" content="@GRJR1325" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Login de SIVAL" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/styles.css" rel="stylesheet" />
 
-<head>
-    <meta name="autor" content="@iAntonAMC">
-    <meta charset="UTF-8">
-    <meta name="description" content="Login for SIVAL">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/static/images">
-    <link rel="stylesheet" type="text/css" href="/static/stylesheets/">
-    <link rel="stylesheet" type="text/css" href="/static/stylesheets/scrollbar.css">  <!-- Scroll_Bar -->
-    <title>SIVAL | LOGIN</title>
-</head>
+    <title>Login</title>
 
-<body>
-    <header>
-        <a class="logo" href="index.html"><img src="/static/images/" alt="Logo de SIVAL" style="border-radius: 10px;"></a>
-    </header>
-    <main>
-        <h1>Iniciar Sesión</h1>
-        <form action="/mvc/models/login.php" method="post">
-            <table cellpadding="10">
-                <tr>
-                    <td><label for="uid"><h2>Usuario:</h2></label></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="uid" id="uid" placeholder="Ingrese su Nombre de Usuario"></td>
-                </tr>
-                <tr>
-                    <td><label for="pass"></label><h2>Contraseña:</h2></label></td> 
-                </tr>
-                <tr>
-                    <td><input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"></td>
-                </tr>
-            </table>
-            <input type="submit" name="user" id="btnEnv" title="Iniciar">
-        </form>
-    </main>
-</body>
+    <!-- Google Icons-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="/static/stylesheets/materialize.min.css" />
+  </head>
+  <body ng-app="mainModule" ng-controller="mainController">
+    <div class="iris">
+      <div class="row">
+        <div class="col s12 m4 offset-m4">
+          <div class="card">
+            <div class="card-action teal lighten-1 white-text">
+              <h3>Iniciar Sesion</h3>
+              <h5>Ir a SIVAL</h5>
+            </div>
+            <div class="card-content">
+              <div class="form field">
+                <input
+                  type="text"
+                  placeholder="Correo electronico o nombre de Usuario"
+                  id="username"
+                />
+              </div>
+              <br />
 
+              <div class="form field">
+                <input type="password" placeholder="Contraseña" id="password" />
+              </div>
+              <br />
+
+              <div class="form field">
+                <p>
+                  <label>
+                    <input type="checkbox" />
+                    <span>Recordarme</span>
+                  </label>
+                </p>
+              </div>
+              <br />
+
+              <div class="form field">
+                <a
+                  class="waves-effect waves-light btn-large green"
+                  style="width: 100%"
+                  href="/mvc/views/ui-usuarios.html"
+                  >Login</a
+                >
+              </div>
+              <br />
+
+              <div class="form field">
+                <p class="margin right-align medium-small">
+                  <a href="#">Forgot password?</a>
+                </p>
+              </div>
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
