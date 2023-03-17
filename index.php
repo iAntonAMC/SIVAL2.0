@@ -1,2 +1,4 @@
-header('Location: https://'.$_SERVER['HTTP_HOST'].'/mvc/index_controll.php');
-
+<?php
+    session_start();
+    header('Location: https://'.$_SERVER['HTTP_HOST'].'/SIVAL/mvc/controllers/index_controller.php');
+?>
