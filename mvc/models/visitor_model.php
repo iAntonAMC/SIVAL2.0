@@ -1,19 +1,46 @@
 <?php
 
-function qr_generator()
+function createVisitor($visitor_fname, $last_name, $ocupation, $reason, $qr_data, $qr_pic)
 {
-    $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    $limit = strlen($chars);
-    for ( $x = 0; $x < 6; $x++ )
+    try
     {
-        $qr_data = $chars[ rand( 0, $limit - 1 ) ];
-    }
+        require ("connection.php");
 
-    $qr_pic = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $qr_data;
-    header("Location:" . $qr_pic);
+        $query = $cnxn->prepare("INSERT INTO visitors (visitor_fname, last_name, ocupation, reason, qr_data, qr_status, qr_pic) VALUES (?, ?, ?, ?, ?, 'pendient', ?);");
+        $query -> execute([$visitor_fname, $last_name, $ocupation, $reason, $qr_data]);
+    }
+    catch(Exception $e)
+    {
+        die("--- ERROR ---\n" . "Visitor model.registerVisitor SAYS:\n" . $e->getMessage());
+    }
+    finally
+    {
+        $cnxn = null;
+    }
 }
 
-qr_generator();
 
+function readVisitors()
+{
+    try
+    {
+        require ("connection.php");
+
+        $query = $cnxn -> prepare("SELECT visitor_id, visitor_fname, last_name, ocupation, reason, qr_data, qr_status, qr_pic FROM visitors;");
+        $query -> execute();
+
+        $visitors_log = $query -> fetchAll();
+
+        return $visitors_log;
+    }
+    catch(Exception $e)
+    {
+        die("--- ERROR ---\n" . "Laboratory model.insertLab SAYS:\n" . $e->getMessage());
+    }
+    finally
+    {
+        $cnxn = null;
+    }
+}
 
 ?>

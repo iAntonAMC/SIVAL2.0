@@ -1,17 +1,9 @@
 <?php
+    header('Location: https://' . $_SERVER['HTTP_HOST'] . '/SIVAL/mvc/views/master.php');
 
-    session_start();
-    if ($_SESSION["DATA"][3] == 'A')
-    {
-        header('Location: https://'.$_SERVER['HTTP_HOST'].'/SIVAL/mvc/views/index.html');
-    }
-    elseif ($_SESSION["DATA"][3] == 'C')
-    {
-        echo "Esta página es para coordinadores, con algunas opciones extra comparado a Profes";
-    }
-    else 
-    {
-        echo "Esta página es para profesores, tendrán más que nada lo de pase de lista";
-    }
+    # Define una función para manejar el comando /start
+    def start(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Hola Mundo!")
+
 
 ?>

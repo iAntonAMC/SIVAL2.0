@@ -19,8 +19,10 @@
             <input type="text" id="lab_name" name="lab_name" value="<?php echo $lab_data['lab_name'] ?>" required>
             <br>
             <label for="building">Building:</label>
-            <input type="text" id="building" name="building" value="<?php echo $lab_data['building'] ?>" required>
-            <br>
+            <select id="building" name="building" required>
+                <option value="H">High Floor</option>
+                <option value="G">Ground Floor</option>
+            </select>            <br>
             <label for="floor">Floor:</label>
             <select type="text" id="floor" name="floor" required>
                 <option value="H">High Floor</option>
@@ -33,6 +35,6 @@
             <input type="submit" title="Save Changes">
         </form>
     </main>
-    
+
 </body>
 </html>

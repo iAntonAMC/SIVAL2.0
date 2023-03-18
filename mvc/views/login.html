@@ -1,42 +1,34 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
-    <meta name="autor" content="@iAntonAMC">
     <meta charset="UTF-8">
     <meta name="description" content="Login for SIVAL">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/SIVAL/static/images">
-    <link rel="stylesheet" type="text/css" href="/SIVAL/static/stylesheets/">
-    <link rel="stylesheet" type="text/css" href="/SIVAL/static/stylesheets/scrollbar.css">  <!-- Scroll_Bar -->
-    <title>LOGIN | SIVAL</title>
 </head>
 
 <body>
+
     <header>
-        <a class="logo" href="index.html"><img src="/SIVAL/static/images/" alt="Logo de SIVAL" style="border-radius: 10px;"></a>
+        <a href="/index.php">Inicio</a>
     </header>
+
     <main>
-        <h1>Iniciar Sesión</h1>
-        <form action="/SIVAL/mvc/models/login_consult.php" method="POST">
-            <table cellpadding="10">
-                <tr>
-                    <td><label for="username"><h2>Username:</h2></label></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="username" id="username" placeholder=""></td>
-                </tr>
-                <tr>
-                    <td><label for="passwd"></label><h2>Password:</h2></label></td> 
-                </tr>
-                <tr>
-                    <td><input type="password" name="passwd" id="passwd" placeholder=""></td>
-                </tr>
-            </table>
+        <h1>Login</h1>
+        <form action="/SIVAL/mvc/controllers/login_controller.php" method="POST">
+
+            <label for="username"><h2>Username:</h2></label>
+            <input type="text" name="username" id="username" placeholder="Insert yor Username">
+
+            <label for="passwd"></label><h2>Password:</h2></label>
+            <input type="password" name="passwd" id="passwd" placeholder="">
+            <br>
+
             <input type="submit" title="Log In">
         </form>
     </main>
+
 </body>
 
 </html>

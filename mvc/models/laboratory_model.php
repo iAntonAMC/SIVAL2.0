@@ -6,7 +6,6 @@ function insertLab($lab_name, $building, $floor, $capacity) {
         require ("connection.php");
 
         $query = $cnxn->prepare("INSERT INTO laboratories (lab_name, building, floor, capacity) VALUES (?, ?, ?, ?);");
-
         $query->execute([$lab_name, $building, $floor, $capacity]);
     }
     catch(Exception $e)
@@ -26,7 +25,6 @@ function readLabs() {
         require "connection.php";
 
         $query = $cnxn->prepare("SELECT * FROM laboratories;");
-
         $query->execute();
 
         $labs_cantity = $query->rowCount();
@@ -51,7 +49,6 @@ function searchID($lab_id) {
         require "connection.php";
 
         $query = $cnxn -> prepare("SELECT * FROM laboratories WHERE lab_id = ?;");
-
         $query -> execute([$lab_id]);
 
         $lab = $query -> fetch();
@@ -75,7 +72,6 @@ function updateLab($lab_name, $building, $floor, $capacity, $lab_id) {
         require ("connection.php");
 
         $query = $cnxn->prepare("UPDATE laboratories SET lab_name = ?, building = ?, floor = ?, capacity = ? WHERE lab_id = ?;");
-
         $query -> execute([$lab_name, $building, $floor, $capacity, $lab_id]);
     }
     catch(Exception $e)
@@ -95,7 +91,6 @@ function deleteLab($lab_id) {
         require ("connection.php");
 
         $query = $cnxn->prepare("DELETE FROM laboratories WHERE lab_id = ?;");
-
         $query->execute([$lab_id]);
 
     }
@@ -108,18 +103,6 @@ function deleteLab($lab_id) {
         $cnxn = null;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function countAll() {
@@ -143,4 +126,5 @@ function countAll() {
     }
     finally{$cnxn = null;}
 }
+
 ?>
