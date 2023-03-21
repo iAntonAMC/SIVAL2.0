@@ -6,26 +6,41 @@ try
 {
     $username = htmlspecialchars(addslashes($_POST["username"]));
     $passwd = htmlspecialchars(addslashes($_POST["passwd"]));
-    $passwd = md5($passwd);
+    //$passwd = md5($passwd);
 
-    $user_data = login($username, $passwd);
+    // Make the consult to the db model
+    $request = login($username, $passwd);
 
-    session_start();
-
-    $_SESSION["DATA"] = $user_data;
-
-    setcookie("username", $username, time() + (86400 * 30), "/");
-
-    if ($_POST['remind_user'] == 'on')
+    if ($request[0] == true)
     {
-        setcookie("token", $token, time() + (86400 * 15), "/");
+        session_start();
+
+        $_SESSION["UID"] = $request[1];
+
+        // Set functionallity cookies
+        setcookie("username", $username, time() + (86400 * 30), "/");
+        setcookie("charge", $request[2], time() + (86400 * 30), "/");
+        setcookie("charge", $request[3], time() + (86400 * 30), "/");
+    
+        if ($_POST['remind_user'] == 'on')
+        {
+            setcookie("auth_token", $auth_token, time() + (86400 * 15), "/");
+        }
+        else
+        {
+            setcookie("auth_token", '', time() - 3600, "/");
+        }
+    
+        header ("Location: /SIVAL/mvc/views/master.php");
     }
     else
     {
-        setcookie("token", '', time() - 3600, "/");
+        header ("Location: /SIVAL/mvc/views/login.html");
     }
-
-    header ("Location: /SIVAL/index.php");
+}
+catch(Exception $e)
+{
+    die ("ERROR !" . "Login Controller dropped an error:" . $e -> getMessage());
 }
 
 ?>

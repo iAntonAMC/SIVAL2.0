@@ -20,7 +20,6 @@
                 if (isset($laboratories)){
                     foreach ($laboratories as $lab){
                         echo "<tr>";
-                            echo "<td>".$lab['lab_id']."</td>";
                             echo "<td>".$lab['lab_name']."</td>";
                             echo "<td>".$lab['building']."</td>";
                             if ($lab['floor'] == 'H')
@@ -32,15 +31,16 @@
                                 echo "<td> First Floor </td>";
                             }
                             echo "<td>".$lab['capacity']."</td>";
-                            echo "<td><a href='/SIVAL/mvc/views/laboratories/update_lab.php?lab_id=" . $lab['lab_id'] . "'>Editar</a></td>";
+                            echo "<td><a href='/SIVAL/mvc/views/laboratories/lab_update.php?lab_id=" . $lab['lab_id'] . "'>Editar</a></td>";
                             echo "<td><a href='/SIVAL/mvc/controllers/laboratories/delete_lab.php?lab_id=" . $lab['lab_id'] . "'>Borrar</a></td>";
                         echo "</tr>";
                     }
                 }
-                else {echo "<tr><td>No laboratorios encontrados</td><tr>";}
+                else {echo "<tr><td>No laboratories were found in db</td><tr>";}
             ?>
-            <a href="/SIVAL/mvc/views/laboratories/insert_lab.html">New Lab</a>
         </thead>
     </table>
+    <br>
+    <a href="/SIVAL/mvc/views/laboratories/lab_insert.html">New Lab</a>
 </body>
 </html>

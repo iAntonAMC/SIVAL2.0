@@ -11,7 +11,7 @@ try
 
     insertLab($lab_name, $building, $floor, $capacity);
 
-    header('Location: https://'.$_SERVER['HTTP_HOST'].'/SIVAL/mvc/views/laboratories/labs_list.php');
+    header('Location: https://' . $_SERVER['HTTP_HOST'] . '/SIVAL/mvc/views/laboratories/labs_list.php');
 }
 catch(Exception $e)
 {

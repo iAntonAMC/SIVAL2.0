@@ -5,8 +5,8 @@ function readUsers() {
     {
         require "connection.php";
 
-        $query = $cnxn->prepare("SELECT * FROM users;");
-        $query->execute();
+        $query = $cnxn -> prepare("SELECT * FROM users;");
+        $query -> execute();
 
         $users = $query->fetchAll();
     
@@ -14,12 +14,32 @@ function readUsers() {
     }
     catch(Exception $e)
     {
-        die("--- ERROR ---\n" . "Laboratory model.readLabs SAYS:\n" . $e->getMessage());
+        die("--- ERROR ---\n" . "User model.readUsers SAYS:\n" . $e->getMessage());
     }
     finally
     {
         $cnxn = null;
     }
 }
+
+
+function insertUser($first_name, $last_name, $charge, $area, $username, $passwd) {
+    try
+    {
+        require "connection.php";
+
+        $query = $cnxn -> prepare("INSERT INTO users (first_name, last_name, charge, area, username, passwd) VALUES (?, ?, ?, ?, ?, ?);");
+        $query -> execute();
+    }
+    catch(Exception $e)
+    {
+        die("--- ERROR ---\n" . "User model.createUser SAYS:\n" . $e->getMessage());
+    }
+    finally
+    {
+        $cnxn = null;
+    }
+}
+
 
 ?>

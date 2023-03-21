@@ -11,7 +11,7 @@
 <body>
 
     <header>
-        <a href="/index.php">Inicio</a>
+        <a href="/SIVAL/index.php">Inicio</a>
     </header>
 
     <main>
@@ -19,10 +19,14 @@
         <form action="/SIVAL/mvc/controllers/login_controller.php" method="POST">
 
             <label for="username"><h2>Username:</h2></label>
-            <input type="text" name="username" id="username" placeholder="Insert yor Username">
+            <input type="text" name="username" id="username" placeholder="Insert Username">
 
             <label for="passwd"></label><h2>Password:</h2></label>
             <input type="password" name="passwd" id="passwd" placeholder="">
+            <br>
+
+            <label for="remind_user"></label>Remind me</label>
+            <input type="checkbox" name="remind_user" id="remind_user">
             <br>
 
             <input type="submit" title="Log In">

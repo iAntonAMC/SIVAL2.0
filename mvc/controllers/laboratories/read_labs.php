@@ -15,4 +15,20 @@ function readAll() {
     }
 }
 
+
+function readOne($lab_id) {
+    try
+    {
+        require ("../../models/laboratory_model.php");
+
+        $lab = searchID($lab_id);
+
+        return $lab;
+    }
+    catch(Exception $e)
+    {
+        die("ERROR !  \n" . "Controller 'read_labs' dropped:\n  " . $e->getMessage());
+    }
+}
+
 ?>

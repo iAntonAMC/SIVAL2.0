@@ -11,21 +11,14 @@
 <body>
 
     <nav>
-
-    <?php
-        if (!isset($_SESSION["USER"]))
-        {
-            echo ("<a href='/SIVAL/mvc/views/login.html'>Log in</a>");
-            echo ("<a href='/SIVAL/mvc/views/visitors/register_visitor.html'>Vistor Registration</a>");
-        }
-
-    ?>
+        <?php
+        
+        ?>
+        <a href='/SIVAL/mvc/views/visitors/register_visitor.html'>Vistor Registration</a>
+        <a href="/SIVAL/mvc/views/laboratories/labs_list.php">View all laboratories</a>
+        <a href="/SIVAL/mvc/views/users/users_list.php">View all users</a>
 
     </nav>
-
-    <header>
-        <h1>SIVAL</h1>
-    </header>
 
     <main>
         <section>
@@ -37,8 +30,10 @@
 
         </aside>
     </main>
+
     <footer>
     </footer>
+
 </body>
 
 </html>

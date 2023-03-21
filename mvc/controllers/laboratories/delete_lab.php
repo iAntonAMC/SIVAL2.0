@@ -8,8 +8,6 @@ try
 
     deleteLab($lab_id);
 
-    echo('<script type="text/javascript">alert("Lab eliminado");window.location.href="index.php";</script>');
-
     header("Location: /SIVAL/mvc/views/laboratories/labs_list.php");
 }
 catch(Exception $e)
