@@ -1,6 +1,6 @@
 # TODOs:
 - Review the db, maybe add status or something like that that can "false-delete" elements
-- Delete laboratory controller
+- Create an error handler that would work like template for all error args
 
 
 # Error message:

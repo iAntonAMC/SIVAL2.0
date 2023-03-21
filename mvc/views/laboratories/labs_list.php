@@ -9,7 +9,6 @@
 <body>
     <table>
         <thead>
-            <th>ID</th>
             <th>Lab Name</th>
             <th>Building</th>
             <th>Floor</th>

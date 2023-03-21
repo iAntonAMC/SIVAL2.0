@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISITORS | SIVAL</title>
+</head>
+<body>
+    <form action="../../controllers/visitors/register_visit.php" method="POST">
+        <label for="visitor_fname">First Name: </label>
+        <input type="text" id="visitor_fname" name="visitor_fname" placeholder="Insert your name, please" required>
+        <br>
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" placeholder="Introduce your second name" required>
+        <br>
+        <label for="ocupation">Ocupation:</label>
+        <input type="text" id="ocupation" name="ocupation" placeholder="Your actual job" required>
+        <br>
+        <label for="reason">Reason:</label>
+        <input type="text" id="reason" name="reason" placeholder="Why are you visiting UTEC?" required>
+
+        <input type="submit" title="Register">
+    </form>
+</body>
+</html>

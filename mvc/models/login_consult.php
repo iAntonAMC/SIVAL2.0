@@ -1,39 +1,30 @@
 <?php
 
-try
+function login($username, $passwd)
 {
-    require "connection.php";
+    try
+    {
+        require ("connection.php");
 
-    $query = "SELECT * FROM users WHERE username = :username AND passwd = :passwd AND status = 1;";
+        $query = $cnxn -> prepare("SELECT * FROM users WHERE username = :username AND passwd = :passwd AND status = 1;");
+        $query -> execute(array(":username" => $username, ":passwd" => $passwd));
 
-    $query = $cnxn->prepare($query);
+        $results = $query -> rowCount();
+        if ($results != 0)
+        {
+            $user_data = $query -> fetch();
+        }
+        return $user_data;
+    }
+    catch(Exception $e)
+    {
+        die ("ERROR !" . "Login Consult dropped an error:" . $e -> getMessage());
+    }
+    finally
+    {
+        $cnxn = null;
+    }
 
-    $username = htmlspecialchars(addslashes($_POST["username"]));
-    $passwd = htmlspecialchars(addslashes($_POST["passwd"]));
-    #$cifpass=md5($passwd);
-
-    $query -> execute(array(":username"=>$username, ":passwd"=>$passwd));
-
-    $results = $query -> rowCount();
-    $user_data = $query -> fetch();
-
-if ($results |= 0)
-{
-    session_start();
-    $_SESSION["DATA"] = $user_data;
-    $_SESSION["USER"] = $username;
-    header("Location:/SIVAL/index.php");
 }
-else
-{
-    header("Location:/SIVAL/mvc/views/login.html");
-}
-}
-catch(Exception $e)
-{
-    die("--- ERROR ---\nLogin Consult dropped an error:\n" . $e->getMessage());
-}
-
-finally{$cnxn = null;}
 
 ?>
