@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONSULTS | SIVAL</title>
+</head>
+<body>
+    <form action="/SIVAL/mvc/controllers/consult/prepare_consult.php" method="POST">
+        <select name="career" id="career">
+            <option value="all"> All careers </option>
+            <option value="TI"> Software </option>
+            <option value="NURSE"> Nursery </option>
+            <option value="NANO"> Nanotechnology </option>
+            <option value="BUSSINESS"> Business Development </option>
+        </select>
+        <select name="grade" id="grade">
+            <option value="all"> All grades </option>
+            <option value=1> 1 Cuatrimester </option>
+            <option value=2> 2 Cuatrimester </option>
+            <option value=3> 3 Cuatrimester </option>
+            <option value=4> 4 Cuatrimester </option>
+            <option value=5> 5 Cuatrimester </option>
+            <option value=6> 6 Cuatrimester </option>
+            <option value=7> 7 Cuatrimester </option>
+            <option value=8> 8 Cuatrimester </option>
+            <option value=9> 9 Cuatrimester </option>
+            <option value=10> 10 Cuatrimester </option>
+            <option value=11> 11 Cuatrimester </option>
+        </select>
+        <select name="area" id="area">
+            <option value="general"> General University Entries </option>
+            <option value="A"> A Building </option>
+            <option value="B"> B Building </option>
+            <option value="C"> C Building </option>
+            <option value="G"> G Building </option>
+            <option value="H"> H Building </option>
+            <option value="I"> I Building </option>
+            <option value="K"> K Building </option>
+        </select>
+        <input type="date" name="idate" id="idate" required>
+        <input type="date" name="edate" id="edate" required>
+
+        <br>
+
+        <input type="submit">
+    </form>
+</body>
+</html>
