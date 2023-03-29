@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USERS | SIVAL</title>
+</head>
+<body>
+    <main>
+        <form action="../../controllers/users/create_user.php" method="POST">
+            <label for="first_name">Name:</label>
+            <input type="text" id="first_name" name="first_name" placeholder="Name" required>
+            <br>
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" placeholder="Last_name" required>
+            <label for="charge">Charge:</label>
+            <select name="charge" id="charge"></select>
+                <option value="A" selected>ADMIN</option>
+                <option value="C">COORDIATOR</option>
+                <option value="P">PROFESSOR</option>
+            </select>
+            <br>
+            <label for="area">Area:</label>
+            <select name="area" id="area"></select>
+                <option value="TICS" selected>Diseño digital</option>
+                <option value="EM">Electro Mecánica</option>
+                <option value="TF">Terapia Física</option>
+            </select>
+            <label for="username">username:</label>
+            <input type="text" id="username" name="username" placeholder="username" required>
+            <br>
+            <label for="passwd">passwd:</label>
+            <input type="password" id="passwd" name="passwd" required>
+
+            <input type="submit" title="Insert User">
+        </form>
+    </main>
+    
+</body>
+</html>
