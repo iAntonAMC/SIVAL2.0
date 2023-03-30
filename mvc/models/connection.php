@@ -3,7 +3,7 @@
 try
 {
     //Create the PDO instance that connects to DB:
-    $cnxn = new PDO("mysql:host=localhost; port=3306; dbname=sival;", "root", "");
+    $cnxn = new PDO("mysql:host=sql106.epizy.com; port=3306; dbname=epiz_33888518_sival	;", "epiz_33888518", "ow2ZN1u3bNTM");
     $cnxn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $cnxn -> exec("SET CHARACTER SET UTF8");
 
