@@ -16,7 +16,7 @@ try
     // Requests the model to do the insertion
     createUser($first_name, $last_name, $charge, $area, $username, $passwd);
 
-    header('Location: /SIVAL/mvc/views/laboratories/labs_list.php');
+    header('Location: /SIVAL/mvc/views/users/users_list.php');
 }
 catch(Exception $e)
 {
