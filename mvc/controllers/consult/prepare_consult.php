@@ -30,6 +30,11 @@ try
         $filter = strval($career);
     }
 
+    if ($grade != "all" and $career != "all")
+    {
+        $query  = "SELECT * FROM students WHERE grade = ? AND career = '$career';";
+        $filter = strval($grade);
+    }
 
     // Make the id query to the model
     $results = getIds($query, $filter);

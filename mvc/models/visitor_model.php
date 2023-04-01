@@ -71,7 +71,7 @@ function readActives()
         $cursor = $cnxn -> prepare($query);
         $cursor -> execute();
 
-        $results = $cursor -> fetch();
+        $results = $cursor -> fetchAll();
 
         return $results;
     }
@@ -99,7 +99,7 @@ function readExpireds()
         $cursor = $cnxn -> prepare($query);
         $cursor -> execute();
 
-        $results = $cursor -> fetch();
+        $results = $cursor -> fetchAll();
 
         return $results;
     }
