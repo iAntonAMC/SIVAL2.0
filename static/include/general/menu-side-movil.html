@@ -1,0 +1,59 @@
+<ul class="sidenav" id="menu-side">
+    <li>
+        <div class="user-view">
+            <div class="background">
+                <img src="/SIVAL/static/images/fondo.jpg" alt="">
+            </div>
+            <a href="#">
+                <img src="/SIVAL/static/images/perfil.jpg" alt="" class="circle">
+                <a href="#name"><span class="white-text name ">
+                    <?php echo "<h3>" . $_COOKIE['username'] . "</h3>"; ?>
+                    </span></a>
+                <a href="#email"><span class="white-text email">1721110895@utectulancingo.edu.mx</span></a>
+                <a href="#!" class="waves-effect waves-light red btn-small"></i>Manage your account</a>
+                <br>
+                <br>
+            </a>
+    <li>
+    <div class="divider"></div>
+    </li>
+
+    <li>
+        <a href="/SIVAL/mvc/views/master.php" class="collection-item"> <i
+                class="material-icons">home</i></span>Home</a>
+    </li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="subheader">System Administration</a></li>
+
+
+    <li>
+        <a href="/SIVAL/mvc/views/laboratories/labs_list.php" class="collection-item"> <i
+                class="material-icons">business</i></span>Laboratories</a>
+    </li>
+    <li>
+        <a href="/SIVAL/mvc/views/users/users_list.php" class="collection-item"> <i
+                class="material-icons">person_add</i></span>Users</a>
+    </li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="subheader">Logs Administration</a></li>
+    <li>
+        <a href="/SIVAL/mvc/views/consult/consult_filter.php" class="collection-item"> <i
+                class="material-icons">find_in_page</i></span>Filters</a>
+    </li>
+    <li>
+        <a href="/SIVAL/mvc/views/visitors/visitors_list.php" class="collection-item"><i
+                class="material-icons">directions_walk</i></span>QR Visitors</a>
+    </li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <br>
+    <li><a href="#!"><i class="material-icons ">person_add</i>Add Account</a></li>
+    <li><a href="/SIVAL/mvc/views/index.html"><i class="material-icons">keyboard_return</i>Sign off</a></li>
+    </div>
+    </li>
+</ul>
