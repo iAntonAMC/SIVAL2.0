@@ -41,7 +41,7 @@
                             <h5>QUERY RESULTS</h5>
                         </div>
                     </div>
-                    Results Found
+                    <h6 align="center" style="font-weight: bold;"><?php echo $_GET['t']; ?></h6>
                     <div class="divider green"></div>
     <table class="striped s12">
         <thead>
@@ -55,6 +55,7 @@
             <?php
             require ("../../controllers/consult/execute_consult.php");
             $query = $_GET['q'];  //This value comes from 'prepare_consult.php', in function of the filters selected
+            $title = $_GET['t'];
             $results = executeQuery($query);
             if (isset($results))
             {
