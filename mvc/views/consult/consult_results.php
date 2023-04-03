@@ -56,6 +56,8 @@
             require ("../../controllers/consult/execute_consult.php");
             $query = $_GET['q'];  //This value comes from 'prepare_consult.php', in function of the filters selected
             $args = $_GET['args'];
+            $date_1 = $_GET['d1'];
+            $date_2 = $_GET['d2'];
             $results = executeQuery($query);
             if (isset($results))
             {
@@ -78,7 +80,7 @@
                     echo "</tr>";
                 }
             };
-            echo "<a href='/SIVAL/mvc/controllers/consult/chart_maker.php?args=".$args."'>Generar Excel</a>"
+            echo "<a href='/SIVAL/mvc/controllers/consult/chart_maker.php?args=".$args."&d1=".$date_1."&d2=".$date_2."'>Generar Excel</a>"
             ?>
         </thead>
     </table>
