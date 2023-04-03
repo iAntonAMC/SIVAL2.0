@@ -58,16 +58,16 @@ try
     {
         $query = "SELECT A1.entry_num, A1.entry_date, A1.entry_time, A2.enrollment, A2.first_name, A2.last_name, A2.class FROM entrances A1, students A2 WHERE A1.student_id = A2.student_id AND A1.student_id IN ($student_ids) AND A1.entry_date BETWEEN '$date_1' AND '$date_2' ORDER BY A1.entry_date;";
         $title .= "al Plantel entre " . $date_1 . " y " . $date_2;
-        $args = "9 SELECT DISTINCT entry_date FROM entrances WHERE student_id IN ($student_ids);";
+        $args = "15 SELECT DISTINCT entry_date FROM entrances WHERE student_id IN ($student_ids) AND entry_date BETWEEN";
     }
     else
     {
         $query = "SELECT A1.entry_num, A1.entry_date, A1.entry_time, A2.enrollment, A2.first_name, A2.last_name, A2.class, A3.lab_name, A3.building FROM labs_entrances A1, students A2, laboratories A3 WHERE (A1.student_id = A2.student_id) AND (A1.lab_id = A3.lab_id) AND (A1.student_id IN ($student_ids)) AND (A3.building = '$area') AND (A1.entry_date BETWEEN '$date_1' AND '$date_2') ORDER BY A1.entry_date;";
         $title .= "al Laboratorio " . $area . "entre " . $date_1 . " y " . $date_2;
-        $args = "9 SELECT DISTINCT entry_date FROM labs_entrances WHERE student_id IN ($student_ids);";
+        $args = "15 SELECT DISTINCT entry_date FROM labs_entrances WHERE student_id IN ($student_ids) AND entry_date BETWEEN";
     }
 
-    header("Location: /SIVAL/mvc/views/consult/consult_results.php?q=" . $query . "&t=" . $title . "&args=" . $args);
+    header("Location: /SIVAL/mvc/views/consult/consult_results.php?q=" . $query . "&t=" . $title . "&args=" . $args . "&d1=" . $date_1 . "&d2=" . $date_2);
 }
 catch(Exception $e)
 {

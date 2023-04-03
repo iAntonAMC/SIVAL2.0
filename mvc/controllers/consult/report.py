@@ -41,7 +41,7 @@ class ChartBuilder:
                 print("Date: ", i[0])
                 sheet.append(i)
                 dates.append(i[0])  # Añade al arreglo las fechas, para usarlas más adelante en el graficador
-            book.save("dates.xlsx")  # Guarda el libro de Excel
+            book.save("chart_report.xlsx")  # Guarda el libro de Excel
             return dates  # Regresa el arreglo con las fechas obtenidas
 
         except Exception as error:
@@ -60,7 +60,7 @@ class ChartBuilder:
                     cantity = self.cursor.fetchone()
                     sheet["B" + str(i+2)] = cantity[0]
 
-                book.save("dates.xlsx") 
+                book.save("chart_report.xlsx") 
 
             except Exception as error:
                 print(f"Error at count_results, method says: {error.args}")
@@ -79,11 +79,11 @@ class ChartBuilder:
             dates = Reference(sheet, min_col=1, min_row=2, max_row=6) #datos de fechas eje x
             chart.add_data(data, titles_from_data=True)
             chart.set_categories(dates)
-            chart.shape = 4
+            chart.shape = 6
 
             sheet.add_chart(chart, 'D1') #COLOCA LA GRAFICA
 
-            book.save("dates.xlsx") #GUARDA LOS CAMBIOS
+            book.save("chart_report.xlsx") #GUARDA LOS CAMBIOS
 
         except Exception as error:
             print(f"ERROR at make_chart, method says: {error.args}")
@@ -94,4 +94,3 @@ cb = ChartBuilder()
 dates = cb.get_dates(query)
 cb.count_results(dates)
 cb.make_chart()
-
