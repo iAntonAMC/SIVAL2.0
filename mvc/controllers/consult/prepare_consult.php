@@ -16,28 +16,28 @@ try
     {
         $query = "SELECT * FROM students WHERE ?;";
         $filter = 1;
-        $title = "Alumnos de TODAS las carreras y de TODOS los cuatrimestres que accedieron";
+        $title = "Alumnos de TODAS las carreras y de TODOS los cuatrimestres que accedieron ";
     }
 
     if ($career == "all" and $grade != "all")
     {
         $query = "SELECT * FROM students WHERE grade = ?;";
         $filter = strval($grade);
-        $title = "Alumnos de" . $grade . "Cuatrimestre que accedieron";
+        $title = "Alumnos de TODAS las carreras y de " . $grade . " Cuatrimestre que accedieron ";
     }
 
     if ($grade == "all" and $career != "all")
     {
         $query  = "SELECT * FROM students WHERE career = ?;";
         $filter = strval($career);
-        $title = "Alumnos de la carrera" . $career . "de TODOS los cuatrimestres que accedieron ";
+        $title = "Alumnos de la carrera " . $career . " y de TODOS los cuatrimestres que accedieron ";
     }
 
     if ($grade != "all" and $career != "all")
     {
         $query  = "SELECT * FROM students WHERE grade = ? AND career = '$career';";
         $filter = strval($grade);
-        $title = "Alumnos de la carrera" . $career . "de" . $grade . "Cuatrimestre que accedieron ";
+        $title = "Alumnos de la carrera " . $career . " y de " . $grade . " Cuatrimestre que accedieron ";
     }
 
     // Make the id query to the model
@@ -58,14 +58,16 @@ try
     {
         $query = "SELECT A1.entry_num, A1.entry_date, A1.entry_time, A2.enrollment, A2.first_name, A2.last_name, A2.class FROM entrances A1, students A2 WHERE A1.student_id = A2.student_id AND A1.student_id IN ($student_ids) AND A1.entry_date BETWEEN '$date_1' AND '$date_2' ORDER BY A1.entry_date;";
         $title .= "al Plantel entre " . $date_1 . " y " . $date_2;
+        $args = "9 SELECT DISTINCT entry_date FROM entrances WHERE student_id IN ($student_ids);";
     }
     else
     {
         $query = "SELECT A1.entry_num, A1.entry_date, A1.entry_time, A2.enrollment, A2.first_name, A2.last_name, A2.class, A3.lab_name, A3.building FROM labs_entrances A1, students A2, laboratories A3 WHERE (A1.student_id = A2.student_id) AND (A1.lab_id = A3.lab_id) AND (A1.student_id IN ($student_ids)) AND (A3.building = '$area') AND (A1.entry_date BETWEEN '$date_1' AND '$date_2') ORDER BY A1.entry_date;";
         $title .= "al Laboratorio " . $area . "entre " . $date_1 . " y " . $date_2;
+        $args = "9 SELECT DISTINCT entry_date FROM labs_entrances WHERE student_id IN ($student_ids);";
     }
 
-    header("Location: /SIVAL/mvc/views/consult/consult_results.php?q=" . $query . "&t=" . $title);
+    header("Location: /SIVAL/mvc/views/consult/consult_results.php?q=" . $query . "&t=" . $title . "&args=" . $args);
 }
 catch(Exception $e)
 {
