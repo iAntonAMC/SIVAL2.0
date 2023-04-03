@@ -55,7 +55,7 @@
             <?php
             require ("../../controllers/consult/execute_consult.php");
             $query = $_GET['q'];  //This value comes from 'prepare_consult.php', in function of the filters selected
-            $title = $_GET['t'];
+            $args = $_GET['args'];
             $results = executeQuery($query);
             if (isset($results))
             {
@@ -78,6 +78,7 @@
                     echo "</tr>";
                 }
             };
+            echo "<a href='/SIVAL/mvc/controllers/consult/chart_maker.php?args=".$args."'>Generar Excel</a>"
             ?>
         </thead>
     </table>
