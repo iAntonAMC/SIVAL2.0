@@ -71,7 +71,7 @@ class ChartBuilder:
             chart = BarChart()
             chart.type = "col"
             chart.style = 5
-            chart.title = "Cantidad de Alumnos"
+            chart.title = "Students' Entrances"
             chart.y_axis.title = 'Cantity Of Students'
             chart.x_axis.title = 'Date'
 

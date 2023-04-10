@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Pagina de Consultas" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <title> SIVAL | CONSULTAS</title>
 
@@ -80,10 +81,28 @@
                     echo "</tr>";
                 }
             };
-            echo "<a href='/SIVAL/mvc/controllers/consult/chart_maker.php?args=".$args."&d1=".$date_1."&d2=".$date_2."'>Generar Excel</a>"
             ?>
         </thead>
     </table>
+    <button onclick=alert_and_build()> Generar </button>
+    <script>
+        function alert_and_build ()
+        {
+            Swal.fire({
+                title: 'Do you want to download this Excel report?',
+                text: "The XLSX will get downloaded in your desk",
+                icon: 'alert',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Download'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "<?php echo "/SIVAL/mvc/controllers/consult/chart_maker.php?args=".$args."&d1=".$date_1."&d2=".$date_2;?>";
+                }
+                });
+        }
+    </script>
     <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', function() {
       var sel = document.querySelectorAll('select');
@@ -94,10 +113,6 @@
   
       var elems = document.querySelectorAll('.sidenav');
       var instances = M.Sidenav.init(elems);
-
-      $(function(){
-            $('#date').datepicker();
-        });
       });
     </script>
 </body>
