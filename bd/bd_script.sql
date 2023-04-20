@@ -120,16 +120,16 @@ INSERT INTO periods(period_name, date_start, date_finish) VALUES
 
 -- Students:
 INSERT INTO students(enrollment, first_name, last_name, career, grade, class, period_name, qr_data) VALUES
-    (1721, 'Juan', 'Perez', 'TI', 1, 'TI11', 'EA2022', 'adg4dg'),
-    (1722, 'Majin', 'Sampayo', 'NANO', 1, 'NANO11', 'EA2022', 'gs4fdd'),
-    (1723, 'Fernando', 'Fernandez', 'BUSINESS', 2, 'DN21', 'EA2022', 'Aggsd4'),
-    (1724, 'Daniel', 'Valeriano', 'NANO', 2, 'NANO21', 'EA2022', '123456'),
-    (1725, 'Rolando', 'Granados', 'TI', 3, 'TI31', 'EA2022', '123456'),
-    (1726, 'Juan', 'Perez', 'TF', 3, 'TF31', 'MA2022', '123456'),
-    (1727, 'Majin', 'Sampayo', 'NURSE', 4, 'NURSE41', 'MA2022', '123456'),
-    (1728, 'Fernando', 'Fernandez', 'TI', 4, 'TI41', 'MA2022', '123456'),
-    (1729, 'Daniel', 'Valeriano', 'NANO', 5, 'NANO51', 'MA2022', '123456'),
-    (1730, 'Daniel', 'Valeriano', 'NANO', 5, 'NANO51', 'MA2022', '123456');
+    ('1721', 'Juan', 'Perez', 'TI', 1, 'TI11', 'EA2022', 'adg4dg'),
+    ('1722', 'Majin', 'Sampayo', 'NANO', 1, 'NANO11', 'EA2022', 'gs4fdd'),
+    ('1723', 'Fernando', 'Fernandez', 'BUSINESS', 2, 'DN21', 'EA2022', 'Aggsd4'),
+    ('1724', 'Daniel', 'Valeriano', 'NANO', 2, 'NANO21', 'EA2022', '123456'),
+    ('1725', 'Rolando', 'Granados', 'TI', 3, 'TI31', 'EA2022', '123456'),
+    ('1726', 'Juan', 'Perez', 'TF', 3, 'TF31', 'MA2022', '123456'),
+    ('1727', 'Majin', 'Sampayo', 'NURSE', 4, 'NURSE41', 'MA2022', '123456'),
+    ('1728', 'Fernando', 'Fernandez', 'TI', 4, 'TI41', 'MA2022', '123456'),
+    ('1721110125', 'Jesus', 'Torres', 'TI', 5, 'TI51', 'MA2023', 'TOFJ990923'),
+    ('1721110895', 'Rolando', 'Rivera', 'TI', 5, 'TI51', 'MA2023', 'ROLA04124');
 
 
 -- Laboratories:
@@ -148,66 +148,45 @@ INSERT INTO laboratories(lab_name, building, floor, capacity) VALUES
     ("Laboratorio Cómputo 3", "G", "G", "20"),
     ("Laboratorio Cómputo 4", "G", "G", "20"),
     ("Laboratorio Cómputo 5", "G", "G", "20"),
-    ("Laboratorio Cómputo 6", "G", "G", "20"),
-    ("Taller Unicel", "H", "G", "20"),
-    ("Desarrollo Energías Renovables", "H", "G", "20"),
-    ("Taller TaeKwonDo", "H", "G", "20"),
-    ("Salón Baile", "H", "H", "20"),
-    ("Cabina de Radio", "H", "G", "10"),
-    ("Salón Baile 2", "H", "G", "20"),
-    ("Desarrollo Robótica", "H", "H", "20"),
-    ("Valoración Fisioterapeuta", "J", "G", "20"),
-    ("Terapia Ocupacional", "J", "G", "20"),
-    ("Balones Suizos", "J", "G", "20"),
-    ("Electroterapia 1", "J", "G", "15"),
-    ("Electroterapia 2", "J", "G", "15"),
-    ("Terapia Física 1", "J", "G", "20"),
-    ("Terapia Física 2", "J", "G", "15"),
-    ("Química J", "J", "H", "15"),
-    ("Anatomía y Fisiología", "J", "H", "10"),
-    ("Unidad Docencia K1", "K", "G", "20"),
-    ("Unidad Docencia K2", "K", "G", "20");
+    ("Laboratorio Cómputo 6", "G", "G", "20");
 
 
 -- Users:
 INSERT INTO users(first_name, last_name, charge, area, username, passwd, status) VALUES
     ("root", "root", 'A', "root", "root", "123", 1),
     ("José Rolando", "Granados", 'A', "TIC", "Rolax", "123", 1),
-    ("Jesús Antonio", "Torres", 'A', "TIC", "iAntonAMC", "123", 1),
-    ("Cristian Daniel", "Valeriano", "C", "TIC", "Dani", "123", 1),
-    ("Fernando", "Sampayo", "P", "TF", "Ferchos", "123", 1);
-
-
--- University Student Entries:
-INSERT INTO entrances(student_id) VALUES
-    (1), (2), (3), (4), (5),
-    (6), (7), (8), (9), (10);
+    ("Jesús Antonio", "Torres", 'A', "TIC", "iAntonAMC", "123", 1);
 
 
 -- University Student Entries with specific dates:
 INSERT INTO entrances(student_id, entry_date) VALUES
-    (1, '2023-03-01'),
-    (2, '2023-03-02'),
-    (3, '2023-03-03'),
-    (4, '2023-03-04'),
-    (5, '2023-03-05'),
-    (6, '2023-03-06'),
-    (7, '2023-03-07'),
-    (8, '2023-03-08'),
-    (9, '2023-03-09'),
-    (10, '2023-03-10');
+    (1, '2023-04-01'),
+    (2, '2023-04-02'),
+    (3, '2023-04-04'),
+    (4, '2023-04-04'),
+    (5, '2023-04-05'),
+    (6, '2023-04-06'),
+    (7, '2023-04-07'),
+    (8, '2023-04-08'),
+    (9, '2023-04-09'),
+    (10, '2023-04-10');
+
+
+-- University Student Entries:
+INSERT INTO entrances(student_id) VALUES
+    (1), (9);
+
+
+-- Laboratories' Student Entries with specific dates:
+INSERT INTO labs_entrances (student_id, lab_id, entry_date) VALUES
+    (1, 1, '2023-04-01'),
+    (1, 2, '2023-04-02'),
+    (1, 3, '2023-04-04'),
+    (1, 4, '2023-04-04'),
+    (1, 5, '2023-04-05');
 
 
 -- Labs' Student Entries:
 INSERT INTO labs_entrances(student_id, lab_id) VALUES
     (1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2), (4, 1), (4, 2), (5, 1), (5, 2),
     (6, 1), (6, 2), (7, 1), (7, 2), (8, 1), (8, 2), (9, 1), (9, 2), (10, 1), (10, 2);
-
-
--- Laboratories' Student Entries with specific dates:
-INSERT INTO labs_entrances (student_id, lab_id, entry_date) VALUES
-    (1, 1, '2023-03-01'),
-    (1, 2, '2023-03-02'),
-    (1, 3, '2023-03-03'),
-    (1, 4, '2023-03-04'),
-    (1, 5, '2023-03-05');

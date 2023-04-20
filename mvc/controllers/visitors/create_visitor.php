@@ -23,8 +23,10 @@ try
     // Request to qrserver API qr code image
     $qr_pic = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $qr_data;
 
+    $qr_status = "pendient";
+
     // Calls the model to do the visitor insertion
-    createVisitor($visitor_fname, $last_name, $ocupation, $visit_area, $reason, $qr_data, $qr_pic);
+    createVisitor($visitor_fname, $last_name, $ocupation, $visit_area, $reason, $qr_data, $qr_pic, $qr_status);
 
     header('Location: /SIVAL/mvc/views/visitors/visitor_info.php?qr_data=' . $qr_data);
 }

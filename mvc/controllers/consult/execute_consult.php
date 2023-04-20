@@ -19,10 +19,6 @@ function executeQuery($query)
     {
         die ("--- ERROR! --- '" . __FILE__ . "' Dropped an exception:" . $e -> getMessage());
     }
-    finally
-    {
-        $cnxn = null;
-    }
 }
 
 ?>

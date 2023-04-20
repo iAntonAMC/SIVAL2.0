@@ -8,7 +8,7 @@ try
     $visitor_id = $_GET['visitor_id'];
 
     // Calls the model to make the qr_status update to 'active'
-    acceptVisitor($visitor_id);
+    expireVisitor($visitor_id);
 
     header("Location: /SIVAL/mvc/views/visitors/visitors_list.php");
 }

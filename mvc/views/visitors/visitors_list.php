@@ -50,32 +50,28 @@
 
                     <table class="striped s12">
                         <thead>
-                            <th>Register Number</th>
                             <th colspan='2'>Name:</th>
                             <th>Main Activity: </th>
                             <th>Visit Area: </th>
                             <th>Reasons of the visit:</th>
                             <th>Status</th>
                             <?php
-                            require "../../controllers/visitors/read_visitors.php";
-                            $results = readPendient();
-                            if (isset($results)){
-                                if ($results != []){
-                                    foreach ($results as $row){
+                            require ("../../controllers/visitors/read_visitors.php");
+                            $results = readAll();
+                            if (isset($results)) {
+                                    foreach ($results as $key => $value) {
+                                        if ($results[$key]['qr_status'] == "pendient") {
                                         echo "<tr>";
-                                            echo "<td>".$row['visitor_id']."</td>";
-                                            echo "<td>".$row['visitor_fname']."</td>";
-                                            echo "<td>".$row['last_name']."</td>";
-                                            echo "<td>".$row['ocupation']."</td>";
-                                            echo "<td>".$row['visit_area']."</td>";
-                                            echo "<td>".$row['reason']."</td>";
+                                            echo "<td>".$results[$key]['visitor_fname']."</td>";
+                                            echo "<td>".$results[$key]['last_name']."</td>";
+                                            echo "<td>".$results[$key]['ocupation']."</td>";
+                                            echo "<td>".$results[$key]['visit_area']."</td>";
+                                            echo "<td>".$results[$key]['reason']."</td>";
                                             echo "<td> Pendient </td>";
-                                            echo "<td><a href='/SIVAL/mvc/controllers/visitors/accept_visitor.php?visitor_id=" . $row['visitor_id'] . "'>Accept</a></td>";
-
+                                            echo "<td><a href='/SIVAL/mvc/controllers/visitors/accept_visitor.php?visitor_id=" . $key . "'>Accept</a></td>";
                                         echo "</tr>";
+                                        }
                                     }
-                                }
-                                else {echo "<tr><td colspan=6>There are no pending Visitor records</td><tr>";}
                             }
                             ?>
                     </thead>
@@ -90,9 +86,8 @@
             var instances = M.Sidenav.init(elems);
         });
     </script>
-    	<!-- Compiled and minified JavaScript -->
-	<script src=
-"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js">
+        	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js">
 	</script>
 </body>
 

@@ -75,8 +75,8 @@ class ChartBuilder:
             chart.y_axis.title = 'Cantity Of Students'
             chart.x_axis.title = 'Date'
 
-            data = Reference(sheet, min_col=2, min_row=6, max_row=2) #datos cantidaes eje y
-            dates = Reference(sheet, min_col=1, min_row=2, max_row=6) #datos de fechas eje x
+            data = Reference(sheet, min_col=2, min_row=2, max_row=11) #datos cantidaes eje y
+            dates = Reference(sheet, min_col=1, min_row=2, max_row=11) #datos de fechas eje x
             chart.add_data(data, titles_from_data=True)
             chart.set_categories(dates)
             chart.shape = 6

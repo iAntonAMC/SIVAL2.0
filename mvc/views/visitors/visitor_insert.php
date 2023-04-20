@@ -52,7 +52,7 @@
                 <div class="row">
                   <div class="col s6">
                   <a class=" s6 btn  waves-effect waves-light red" href="/SIVAL/mvc/views/index.html">
-                  <i class="material-icons right">delete</i>Cancel
+                  <i class="material-icons right">delete</i>
                 </a>
                   </div>
                   <div class="col s6">

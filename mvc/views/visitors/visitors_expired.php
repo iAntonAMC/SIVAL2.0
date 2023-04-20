@@ -57,24 +57,22 @@
                             <th>Reasons of the visit:</th>
                             <th>Status</th>
                             <?php
-                            require "../../controllers/visitors/read_visitors.php";
-                            $results = readExpired();
-                            if (isset($results)){
-                                if ($results != []){
-                                    foreach ($results as $row){
+                            require ("../../controllers/visitors/read_visitors.php");
+                            $results = readAll();
+                            if (isset($results)) {
+                                    foreach ($results as $key => $value) {
+                                        if ($results[$key]['qr_status'] == "expired") {
                                         echo "<tr>";
-                                            echo "<td>".$row['visitor_id']."</td>";
-                                            echo "<td>".$row['visitor_fname']."</td>";
-                                            echo "<td>".$row['last_name']."</td>";
-                                            echo "<td>".$row['ocupation']."</td>";
-                                            echo "<td>".$row['visit_area']."</td>";
-                                            echo "<td>".$row['reason']."</td>";
+                                            echo "<td>".$results[$key]['visitor_fname']."</td>";
+                                            echo "<td>".$results[$key]['last_name']."</td>";
+                                            echo "<td>".$results[$key]['ocupation']."</td>";
+                                            echo "<td>".$results[$key]['visit_area']."</td>";
+                                            echo "<td>".$results[$key]['reason']."</td>";
                                             echo "<td> Expired </td>";
-                                            echo "<td><a href='/SIVAL/mvc/controllers/visitors/accept_visitor.php?visitor_id=" . $row['visitor_id'] . "'>Reactive</a></td>";
+                                            echo "<td><a href='/SIVAL/mvc/controllers/visitors/accept_visitor.php?visitor_id=" . $key . "'>Reactivate</a></td>";
                                         echo "</tr>";
+                                        }
                                     }
-                                }
-                                else {echo "<tr><td colspan=6>No expired Visitor records</td><tr>";}
                             }
                             ?>
                     </thead>

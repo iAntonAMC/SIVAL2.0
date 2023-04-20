@@ -1,6 +1,6 @@
 <?php
 
-/* Create the visitor register:
+/* Creates the visitor register:
     @param $visitor_fname : str
     @param $last_name : str
     @param $ocupation : str
@@ -9,23 +9,33 @@
     @param $qr_data : str
     @param $qr_pic : str
 */
-function createVisitor($visitor_fname, $last_name, $ocupation, $visit_area, $reason, $qr_data, $qr_pic)
+function createVisitor($visitor_fname, $last_name, $ocupation, $visit_area, $reason, $qr_data, $qr_pic, $qr_status)
 {
     try
     {
-        require ("connection.php");
+        $URL = "https://sival-db-default-rtdb.firebaseio.com/visitors.json";
+        $vdata = [$visitor_fname, $last_name, $ocupation, $visit_area, $reason, $qr_data, $qr_pic, $qr_status];
+        $keys = array("visitor_fname", "last_name", "ocupation", "visit_area", "reason", "qr_data", "qr_pic", "qr_status");
+        $json_array = array_combine($keys, $vdata);
+        $data = json_encode($json_array);
 
-        $query = "INSERT INTO visitors (visitor_fname, last_name, ocupation, visit_area, reason, qr_data, qr_pic) VALUES (?, ?, ?, ?, ?, ?, ?);";
-        $cursor = $cnxn -> prepare($query);
-        $cursor -> execute([$visitor_fname, $last_name, $ocupation, $visit_area, $reason, $qr_data, $qr_pic]);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $URL);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+
+        $response = curl_exec($curl);
     }
     catch(Exception $e)
     {
-        die ("--- ERROR! --- '" . __FILE__ . "' Dropped an exception:" . $e -> getMessage());
+        echo "curl_exec() failed: " . curl_errno($curl) . "\n";
+        die ("--- ERROR! --- '" . __FILE__ . $response . "' Dropped an exception:" . $e -> getMessage());
     }
     finally
     {
-        $cnxn = null;
+        curl_close($curl);
     }
 }
 
@@ -33,160 +43,125 @@ function createVisitor($visitor_fname, $last_name, $ocupation, $visit_area, $rea
 /* Get all pendant visits:
     @return $results : array of arrays
 */
-function readPendients()
+function readVisitors()
 {
     try
     {
-        require ("connection.php");
+        $URL = "https://sival-db-default-rtdb.firebaseio.com/visitors.json";
 
-        $query = "SELECT visitor_id, visitor_fname, last_name, ocupation, visit_area, reason FROM visitors WHERE qr_status = 'pendient';";
-        $cursor = $cnxn -> prepare($query);
-        $cursor -> execute();
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $URL);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-        $results = $cursor -> fetchAll();
-
-        return $results;
+        $response = curl_exec($curl);
+        
+        $data = json_decode($response, true);
+        
+        return $data;
     }
     catch(Exception $e)
     {
-        die ("--- ERROR! --- '" . __FILE__ . "' Dropped an exception:" . $e -> getMessage());
+        echo "curl_exec() failed: " . curl_errno($curl) . "\n";
+        die ("--- ERROR! --- '" . __FILE__ . $response . "' Dropped an exception:" . $e -> getMessage());
     }
     finally
     {
-        $cnxn = null;
+        curl_close($curl);
     }
 }
 
 
-/* Get all active visits:
+/* Updates visits to accepted status:
+    @param $visitor_id : json key
     @return $results : array of arrays
 */
-function readActives()
+function acceptVisitor($visitor_id)
 {
     try
     {
-        require ("connection.php");
+        $data = '"active"';
+        $URL = "https://sival-db-default-rtdb.firebaseio.com/visitors/".$visitor_id."/qr_status.json";
 
-        $query = "SELECT visitor_id, visitor_fname, last_name, ocupation, visit_area, reason FROM visitors WHERE qr_status = 'active';";
-        $cursor = $cnxn -> prepare($query);
-        $cursor -> execute();
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($curl, CURLOPT_URL, $URL);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain'));
 
-        $results = $cursor -> fetchAll();
-
-        return $results;
+        $response = curl_exec($curl);
     }
     catch(Exception $e)
     {
-        die ("--- ERROR! --- '" . __FILE__ . "' Dropped an exception:" . $e -> getMessage());
+        echo "curl_exec() failed: " . curl_errno($curl) . "\n";
+        die ("--- ERROR! --- '" . __FILE__ . $response . "' Dropped an exception:" . $e -> getMessage());
     }
     finally
     {
-        $cnxn = null;
+        curl_close($curl);
     }
 }
 
 
-/* Get all expired visits:
-    @return $results : array 
+/* Updates visits to accepted status:
+    @param $visitor_id : json key
+    @return $results : array of arrays
 */
-function readExpireds()
+function expireVisitor($visitor_id)
 {
     try
     {
-        require ("connection.php");
+        $data = '"expired"';
+        $URL = "https://sival-db-default-rtdb.firebaseio.com/visitors/".$visitor_id."/qr_status.json";
 
-        $query = "SELECT * FROM visitors WHERE qr_status = 'expired';";
-        $cursor = $cnxn -> prepare($query);
-        $cursor -> execute();
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($curl, CURLOPT_URL, $URL);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain'));
 
-        $results = $cursor -> fetchAll();
-
-        return $results;
+        $response = curl_exec($curl);
     }
     catch(Exception $e)
     {
-        die ("--- ERROR! --- '" . __FILE__ . "' Dropped an exception:" . $e -> getMessage());
+        echo "curl_exec() failed: " . curl_errno($curl) . "\n";
+        die ("--- ERROR! --- '" . __FILE__ . $response . "' Dropped an exception:" . $e -> getMessage());
     }
     finally
     {
-        $cnxn = null;
+        curl_close($curl);
     }
 }
 
 
-/* Get visitor data using  the qr_data to match
-    @param $qr_data : str
-    @return $results : array
+/* Get all pendant visits:
+    @return $results : array of arrays
 */
-function readVisitor($qr_data)
+function readLogs()
 {
     try
     {
-        require ("connection.php");
+        $URL = "https://sival-db-default-rtdb.firebaseio.com/logs.json";
 
-        $query = "SELECT * FROM visitors WHERE qr_data = ?;";
-        $cursor = $cnxn -> prepare($query);
-        $cursor -> execute([$qr_data]);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $URL);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-        $results = $cursor -> fetch();
-
-        return $results;// The results are used in 'views/visitor/visitor_info.php
+        $response = curl_exec($curl);
+        
+        $data = json_decode($response, true);
+        
+        return $data;
     }
     catch(Exception $e)
     {
-        die ("--- ERROR! --- '" . __FILE__ . "' Dropped an exception:" . $e -> getMessage());
+        echo "curl_exec() failed: " . curl_errno($curl) . "\n";
+        die ("--- ERROR! --- '" . __FILE__ . $response . "' Dropped an exception:" . $e -> getMessage());
     }
     finally
     {
-        $cnxn = null;
-    }
-}
-
-
-/* Update visitor qr_status to make it 'active':
-    @param $visitor_id : int
-*/
-function acceptVisitor($visitor_id) 
-{
-    try
-    {
-        require ("connection.php");
-
-        $query = "UPDATE visitors SET qr_status = 'active' WHERE visitor_id = ?;";
-        $cursor = $cnxn -> prepare($query);
-        $cursor -> execute([$visitor_id]);
-    }
-    catch(Exception $e)
-    {
-        die ("--- ERROR! --- '" . __FILE__ . "' Dropped an exception:" . $e -> getMessage());
-    }
-    finally
-    {
-        $cnxn = null;
-    }
-}
-
-
-/* Update visitor qr_status to make it 'expired':
-    @param $visitor_id : int
-*/
-function unacceptVisitor($visitor_id)
-{
-    try
-    {
-        require ("connection.php");
-
-        $query = "UPDATE visitors SET qr_status = 'expired' WHERE visitor_id = ?;";
-        $cursor = $cnxn -> prepare($query);
-        $cursor -> execute([$visitor_id]);
-    }
-    catch(Exception $e)
-    {
-        die ("--- ERROR! --- '" . __FILE__ . "' Dropped an exception:" . $e -> getMessage());
-    }
-    finally
-    {
-        $cnxn = null;
+        curl_close($curl);
     }
 }
 

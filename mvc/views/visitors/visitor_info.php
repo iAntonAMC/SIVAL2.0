@@ -29,7 +29,6 @@
     </div>
     <table class="container">
         <thead>
-            <th>Registry number</th>
             <th colspan = '2'>Name:</th>
             <th>Area: </th>
             <th> QR </th>
@@ -37,18 +36,25 @@
             require ("../../controllers/visitors/read_visitors.php");
             $qr_data = $_GET['qr_data'];
             // Gets the visitor data within the controller
-            $results = readQR($qr_data);
-            if (isset($results['visitor_id'])){
-                echo "<tr>";
-                    echo "<td>".$results['visitor_id']."</td>";
-                    echo "<td>".$results['visitor_fname']."</td>";
-                    echo "<td>".$results['last_name']."</td>";
-                    echo "<td>".$results['ocupation']."</td>";
-                    echo "<td>".$results['visit_area']."</td>";
-                    echo "<td><img src='".$results['qr_pic']."'></td>";
-                echo "</tr>";
+            $results = readAll($qr_data);
+            if (isset($results)) {
+                $printed = false;
+                foreach ($results as $key => $value) {
+                    if ($results[$key]['qr_data'] == $qr_data) {
+                    echo "<tr>";
+                        echo "<td>".$results[$key]['visitor_fname']."</td>";
+                        echo "<td>".$results[$key]['last_name']."</td>";
+                        echo "<td>".$results[$key]['visit_area']."</td>";
+                        echo "<td><img src='".$results[$key]['qr_pic']."'></td>";
+                    echo "</tr>";
+                    $printed = true;
+                    }
+                }
+                if ($printed != true) {
+                    echo "<tr><td colspan=6>There´s no qr_data matched in DB</td><tr>";
+                    $printed = true;
+                }
             }
-            else {  echo "<tr><td colspan=6>There´s no qr_data matched in DB</td><tr>"; }
             ?>         
             </thead>
     </table>

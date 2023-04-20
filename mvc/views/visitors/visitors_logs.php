@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 
 
-    <title>SIVAL | ACTIVE QRs</title>
+    <title>UI-Qrs_main</title>
 
     <?php include "../../../static/include/head.html"; ?>
 </head>
@@ -42,10 +42,9 @@
                 <div class="col l10">
                     <div class="column">
                         <div class="col s12 l12" style="display: flex;align-items: center;justify-content: center;">
-                            <h5>VISITORS ACTIVE</h5>
+                            <h5>VISITORS ENTRANCES</h5>
                         </div>
                     </div>
-                    QR Actives
                     <div class="divider green"></div>
 
                     <table class="striped s12">
@@ -54,23 +53,20 @@
                             <th>Main Activity: </th>
                             <th>Visit Area: </th>
                             <th>Reasons of the visit:</th>
-                            <th>Status</th>
+                            <th>Entry Date</th>
                             <?php
                             require ("../../controllers/visitors/read_visitors.php");
-                            $results = readAll();
+                            $results = readLogged();
                             if (isset($results)) {
                                     foreach ($results as $key => $value) {
-                                        if ($results[$key]['qr_status'] == "active") {
                                         echo "<tr>";
                                             echo "<td>".$results[$key]['visitor_fname']."</td>";
                                             echo "<td>".$results[$key]['last_name']."</td>";
                                             echo "<td>".$results[$key]['ocupation']."</td>";
                                             echo "<td>".$results[$key]['visit_area']."</td>";
                                             echo "<td>".$results[$key]['reason']."</td>";
-                                            echo "<td> Active </td>";
-                                            echo "<td><a href='/SIVAL/mvc/controllers/visitors/expire_visitor.php?visitor_id=" . $key . "'>Turn Off</a></td>";
+                                            echo "<td> 18 - April - 2023 </td>";
                                         echo "</tr>";
-                                        }
                                     }
                             }
                             ?>
@@ -86,9 +82,8 @@
             var instances = M.Sidenav.init(elems);
         });
     </script>
-    	<!-- Compiled and minified JavaScript -->
-	<script src=
-"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js">
+        	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js">
 	</script>
 </body>
 
