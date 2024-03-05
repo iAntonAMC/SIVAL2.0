@@ -13,7 +13,7 @@ function createVisitor($visitor_fname, $last_name, $ocupation, $visit_area, $rea
 {
     try
     {
-        $URL = "https://sival-db-default-rtdb.firebaseio.com/visitors.json";
+        $URL = "https://sival-666-default-rtdb.firebaseio.com/visitors.json";
         $vdata = [$visitor_fname, $last_name, $ocupation, $visit_area, $reason, $qr_data, $qr_pic, $qr_status];
         $keys = array("visitor_fname", "last_name", "ocupation", "visit_area", "reason", "qr_data", "qr_pic", "qr_status");
         $json_array = array_combine($keys, $vdata);
@@ -47,7 +47,7 @@ function readVisitors()
 {
     try
     {
-        $URL = "https://sival-db-default-rtdb.firebaseio.com/visitors.json";
+        $URL = "https://sival-666-default-rtdb.firebaseio.com/visitors.json";
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $URL);
@@ -80,7 +80,7 @@ function acceptVisitor($visitor_id)
     try
     {
         $data = '"active"';
-        $URL = "https://sival-db-default-rtdb.firebaseio.com/visitors/".$visitor_id."/qr_status.json";
+        $URL = "https://sival-666-default-rtdb.firebaseio.com/visitors/".$visitor_id."/qr_status.json";
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
@@ -112,7 +112,7 @@ function expireVisitor($visitor_id)
     try
     {
         $data = '"expired"';
-        $URL = "https://sival-db-default-rtdb.firebaseio.com/visitors/".$visitor_id."/qr_status.json";
+        $URL = "https://sival-666-default-rtdb.firebaseio.com/visitors/".$visitor_id."/qr_status.json";
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
@@ -142,7 +142,7 @@ function readLogs()
 {
     try
     {
-        $URL = "https://sival-db-default-rtdb.firebaseio.com/logs.json";
+        $URL = "https://sival-666-default-rtdb.firebaseio.com/logs.json";
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $URL);

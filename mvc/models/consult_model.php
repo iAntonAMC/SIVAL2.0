@@ -49,7 +49,7 @@ function seekNews()
 {
     try
     {
-        $URL = "https://sival-db-default-rtdb.firebaseio.com/recData.json";
+        $URL = "https://sival-666-default-rtdb.firebaseio.com/recData.json";
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $URL);

@@ -49,11 +49,17 @@
                 <input type="text" id="reason" name="reason" placeholder="Why do you visit UTEC?" required>
                 <br>
                 <br>
+
+                <input type="checkbox" id="terms" required>
+                <label for="terms">I accept the <a href="/SIVAL/static/Terminos y Condiciones.pdf" target="_blank">terms and conditions</a></label>
+                <br>
+                <br>
+            
                 <div class="row">
                   <div class="col s6">
                   <a class=" s6 btn  waves-effect waves-light red" href="/SIVAL/mvc/views/index.html">
                   <i class="material-icons right">delete</i>
-                </a>
+                  </a>
                   </div>
                   <div class="col s6">
                   <div class="form field">

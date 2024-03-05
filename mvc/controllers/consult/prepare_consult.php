@@ -50,7 +50,7 @@ try
         $student_ids .= $row["student_id"];
         $student_ids .= ",";
     }
-    $student_ids = substr($student_ids, 0, -1);  //Creates an substring popping out the lastone comma
+    $student_ids = substr($student_ids, 0, -1);  //Creates an substring popping out the last comma
 
 
     // Prepare the full filtered query:

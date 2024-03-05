@@ -55,7 +55,7 @@
             <th> Entry time: </th>
             <?php
             require ("../../controllers/consult/execute_consult.php");
-            $query = $_GET['q'];  //This value comes from 'prepare_consult.php', in function of the filters selected
+            $query = $_GET['q'];  //This values comes from 'prepare_consult.php', in function of the filters selected
             $args = $_GET['args'];
             $date_1 = $_GET['d1'];
             $date_2 = $_GET['d2'];
