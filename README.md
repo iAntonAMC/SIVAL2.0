@@ -704,8 +704,6 @@ SIVAL evolved beyond a traditional CRUD university project by integrating:
 | ------------- | ---: | --------- |
 | Hackaton UTVM | 2024 | 1st Place |
 
-> Add a link to an official publication, certificate, photograph, or event announcement whenever available.
-
 ---
 
 ## My Contribution
@@ -726,8 +724,6 @@ My primary responsibilities included:
 * Facial-recognition pipeline implementation.
 * Engineering conventions and development guidelines.
 * System integration between application components.
-
-> This section should describe individual ownership accurately. Collaborative work should remain attributed to the team.
 
 ---
 
