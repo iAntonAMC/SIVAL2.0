@@ -1,301 +1,449 @@
 # SIVAL 2.0
 
-**A university access-control system that combines facial recognition, QR-based visitor validation, and access logging to improve campus security.**
+**A hybrid university access-control system combining facial recognition, QR-based visitor authorization, access logging, and administrative reporting.**
 
-> SIVAL — *Sistema de Validación del Alumnado*
+> **SIVAL — Sistema de Validación del Alumnado**
 
 [![PHP](https://img.shields.io/badge/PHP-7.x-777BB4?logo=php\&logoColor=white)](https://www.php.net/)
-[![MySQL](https://img.shields.io/badge/MySQL-5.x-4479A1?logo=mysql\&logoColor=white)](https://www.mysql.com/)
-[![Architecture](https://img.shields.io/badge/Architecture-MVC-blue)](#architecture)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python\&logoColor=white)](https://www.python.org/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8?logo=opencv\&logoColor=white)](https://opencv.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-Relational%20Database-4479A1?logo=mysql\&logoColor=white)](https://www.mysql.com/)
+[![Firebase](https://img.shields.io/badge/Firebase-Realtime%20Database-FFCA28?logo=firebase\&logoColor=black)](https://firebase.google.com/)
 
 ## Demo
 
-[Watch the SIVAL demonstration on YouTube](https://youtu.be/bDrF3uBNPPU)
+[▶ Watch the SIVAL project demo on YouTube](https://youtu.be/bDrF3uBNPPU)
 
-<!-- Replace this section with screenshots from /docs/images -->
-
-![SIVAL Demo](docs/images/sival-dashboard.png)
+<!-- Recommended:
+docs/images/dashboard.png
+docs/images/face-recognition.png
+docs/images/visitor-qr.png
+docs/images/reports.png
+-->
 
 ---
 
 ## Problem
 
-Educational institutions need to control who enters their facilities while maintaining an efficient experience for students, staff, security personnel, and visitors.
+Universities need to validate who enters their facilities while keeping the process efficient for students, visitors, faculty, and security personnel.
 
-Traditional access-control processes may depend on manual identity verification, physical credentials, or disconnected records. These approaches can make it difficult to:
+Traditional approaches based exclusively on physical credentials or manual verification make it harder to:
 
-* Verify whether a person is authorized to enter the institution.
-* Track when students enter university facilities.
-* Record access to restricted areas such as laboratories.
-* Manage temporary visitors.
-* Maintain a centralized history of access events.
+* Validate a person's identity automatically.
+* Track student access events.
+* Control temporary visitor access.
+* Monitor access to laboratories.
+* Maintain an auditable access history.
+* Generate reports from historical access data.
 
-SIVAL was designed to explore a software-based approach to this problem by combining identity management, facial recognition, QR validation, and access-event tracking in a single system.
+SIVAL explores a software-driven solution by combining **computer vision, QR validation, web administration, relational data, and event synchronization**.
 
 ---
 
 ## Solution
 
-SIVAL (**Sistema de Validación del Alumnado**) is a web-based access-control platform built primarily with PHP and MySQL.
+SIVAL is a hybrid access-control platform composed of a PHP web application and Python-based computer-vision services.
 
-The system supports multiple validation workflows:
+The system supports two primary validation flows:
 
-* Registered students can be identified through facial recognition.
-* Visitors can be issued temporary QR-based credentials.
-* Access events can be recorded with date and time information.
-* Laboratory access can be tracked independently.
-* Administrators can manage student information and review access activity.
+### Students
 
-Instead of treating access validation as a single authentication event, SIVAL models it as a broader workflow involving identity, authorization, validation, and traceability.
+Registered students can be identified using facial recognition.
+
+Once a student is recognized, the recognition event is synchronized through Firebase and later persisted as an entrance event in MySQL.
+
+### Visitors
+
+Visitors are registered through the web platform and receive QR-based authorization.
+
+Authorized QR codes can then be validated through the OpenCV scanner, producing visitor access logs.
+
+Administrators can additionally manage:
+
+* System users.
+* Laboratories.
+* Visitors.
+* Access records.
+* Filtered reports.
+* Access analytics.
 
 ---
 
 ## Architecture
 
-SIVAL follows a **Model-View-Controller-inspired architecture** to separate presentation, application flow, and data-access responsibilities.
+SIVAL uses a **hybrid event-driven architecture around an MVC-oriented PHP application**.
 
 ```mermaid
 flowchart LR
-    U[Student / Visitor / Administrator]
+    Student[Student]
+    Visitor[Visitor]
+    Admin[Administrator]
 
-    subgraph Client
-        V[Web Interface]
-        CAM[Camera]
-        QR[QR Credential]
+    subgraph CV["Computer Vision — Python / OpenCV"]
+        Face[Facial Recognition]
+        QR[QR Scanner]
+        Train[LBPH Training]
     end
 
-    subgraph Application
-        C[Controllers]
-        M[Models / Business Logic]
-        FD[Face Detection / Recognition]
+    subgraph Firebase["Firebase Realtime Database"]
+        RecData[Recognition Events]
+        Visitors[Visitor Authorizations]
+        Logs[Visitor Logs]
     end
 
-    subgraph Data
-        DB[(MySQL Database)]
+    subgraph Web["PHP Web Application"]
+        Views[Views]
+        Controllers[Controllers]
+        Models[Models]
     end
 
-    U --> V
-    U --> CAM
-    U --> QR
+    subgraph Persistence
+        MySQL[(MySQL)]
+    end
 
-    V --> C
-    CAM --> FD
-    QR --> C
+    Student --> Face
+    Train --> Face
+    Face --> RecData
 
-    C --> M
-    C --> FD
+    Visitor --> QR
+    Visitors --> QR
+    QR --> Logs
 
-    M --> DB
-    FD --> C
+    Admin --> Views
+    Views --> Controllers
+    Controllers --> Models
 
-    C --> V
+    Models <--> Firebase
+    Models <--> MySQL
+
+    RecData --> Models
+```
+
+### Facial-recognition flow
+
+```mermaid
+sequenceDiagram
+    participant Camera
+    participant OpenCV
+    participant LBPH
+    participant Firebase
+    participant PHP
+    participant MySQL
+
+    Camera->>OpenCV: Capture frame
+    OpenCV->>OpenCV: Detect face
+    OpenCV->>LBPH: Predict identity
+
+    alt Recognized
+        LBPH->>Firebase: Publish student enrollment
+        PHP->>Firebase: Read recognition event
+        PHP->>MySQL: Insert entrance record
+    else Unknown
+        LBPH-->>OpenCV: Reject identity
+    end
 ```
 
 ### Repository structure
 
 ```text
 SIVAL2.0/
-├── bd/             # Database-related resources
-├── detectors/      # Detection / facial-recognition components
-├── mvc/            # Application MVC structure
-├── static/         # Static frontend resources
-├── index.php       # Application entry point
+├── bd/
+│   └── bd_script.sql
+│
+├── detectors/
+│   ├── face_recognizer.py
+│   ├── frame_maker.py
+│   ├── qr_detector.py
+│   ├── trainer.py
+│   └── requirements.txt
+│
+├── mvc/
+│   ├── controllers/
+│   │   ├── consult/
+│   │   ├── laboratories/
+│   │   ├── users/
+│   │   └── visitors/
+│   │
+│   ├── models/
+│   └── views/
+│
+├── static/
+├── index.php
 ├── README.md
-└── LICENSE
+└── LICENCE
 ```
-
-The project also defines development conventions for models, controllers, views, SQL queries, variables, functions, and internal routes.
 
 ---
 
 ## Key Features
 
-### Facial recognition
+### Facial Recognition
 
-SIVAL supports student identity validation through facial-recognition functionality, enabling an alternative to relying exclusively on physical credentials.
+The computer-vision module uses OpenCV to detect faces from a camera stream.
 
-### Student management
+SIVAL uses an **LBPH (Local Binary Patterns Histograms) Face Recognizer** trained from previously captured facial samples.
 
-Administrators can register students and associate institutional information with their system identity.
+Recognition results are published to Firebase so they can be consumed by the PHP application.
 
-### University access logging
+### Face Dataset Generation
 
-Student access events can be recorded with date and time information, creating an auditable history of entries.
+`frame_maker.py` extracts and normalizes face samples from video input, creating the dataset used during model training.
 
-### Laboratory access tracking
+### Model Training
 
-The system can separately record access to university laboratories and other controlled areas.
+`trainer.py` processes the captured face dataset and trains an OpenCV LBPH model persisted as:
 
-### QR-based visitor access
+```text
+modeloLBPHFace.xml
+```
 
-Visitors can be provided with QR-based credentials for temporary access workflows without registering them as permanent students.
+### QR Visitor Validation
 
-### Access administration
+The visitor scanner uses OpenCV's:
 
-The application provides centralized access-management functionality for reviewing and managing authorization workflows.
+```python
+cv2.QRCodeDetector()
+```
 
-### Reporting foundation
+to decode QR credentials.
 
-The project was designed with access reporting in mind, including the ability to evolve toward daily, weekly, and monthly activity reports.
+The decoded credential is checked against active visitors stored in Firebase.
+
+### Access Logging
+
+Recognized students can generate records in the MySQL `entrances` table containing:
+
+* Student identity.
+* Entry date.
+* Entry time.
+* Exit time.
+
+### Laboratory Management
+
+Administrators can create, read, update, and delete laboratory records containing:
+
+* Laboratory name.
+* Building.
+* Floor.
+* Capacity.
+
+### Visitor Lifecycle
+
+Visitors have an authorization state:
+
+```text
+pendient → active → expired
+```
+
+This allows the system to distinguish between requested, authorized, and expired QR credentials.
+
+### Reporting
+
+The reporting module can query entrance data and generate Excel reports programmatically with:
+
+* `openpyxl`
+* `PyMySQL`
+* Excel bar charts
 
 ---
 
 ## Tech Stack
 
-| Layer                   | Technology                         |
-| ----------------------- | ---------------------------------- |
-| Backend                 | PHP 7.x                            |
-| Database                | MySQL 5.x                          |
-| Frontend                | HTML, CSS, JavaScript              |
-| Web Server              | Apache / Nginx                     |
-| Architecture            | MVC                                |
-| Identity validation     | Facial recognition / detection     |
-| Visitor validation      | QR codes                           |
-| Development environment | XAMPP-compatible local environment |
-| Version control         | Git / GitHub                       |
+| Area                  | Technology                 |
+| --------------------- | -------------------------- |
+| Backend               | PHP                        |
+| Computer Vision       | Python                     |
+| Face Detection        | OpenCV Haar Cascades       |
+| Face Recognition      | OpenCV LBPH                |
+| QR Detection          | OpenCV QRCodeDetector      |
+| Relational Database   | MySQL                      |
+| Event Synchronization | Firebase Realtime Database |
+| PHP Database Access   | PDO                        |
+| Firebase Integration  | Firebase Admin SDK / REST  |
+| Reporting             | Python, openpyxl, PyMySQL  |
+| Frontend              | HTML, CSS, JavaScript      |
+| Web Server            | Apache / XAMPP             |
+| Version Control       | Git / GitHub               |
 
 ---
 
 ## Engineering Decisions
 
-### MVC-oriented separation of concerns
+### Hybrid PHP + Python Architecture
 
-Application code is organized around models, views, and controllers rather than concentrating database operations, UI rendering, and request handling in the same files.
+PHP was used for the administrative web application and relational workflows, while Python was used for computer vision.
 
-The project established naming conventions such as:
+This allowed each subsystem to use libraries suited to its problem domain:
+
+* PHP for web application workflows.
+* Python/OpenCV for vision processing.
+
+### Firebase as an Event Bridge
+
+The recognition process and PHP application run as separate components.
+
+Instead of tightly coupling them, facial-recognition results are written to Firebase Realtime Database.
+
+The PHP application can then consume the recognition event and persist the corresponding entrance record in MySQL.
+
+This provides a simple asynchronous communication mechanism between the Python and PHP subsystems.
+
+### MVC-Oriented Web Application
+
+The PHP application separates responsibilities into:
 
 ```text
-Controllers:  action_entity
-Models:       entity_model
-Views:        entity_purpose
-Functions:    camelCase
-Variables:    snake_case
+controllers/
+models/
+views/
 ```
 
-These conventions were introduced to improve consistency across a multi-developer codebase.
+Models encapsulate persistence and external-data operations, controllers handle application workflows, and views render the administrative interface.
 
-### Relational persistence
+### Prepared SQL Statements
 
-MySQL was selected to model students, identities, authorization information, and access events as structured relational data.
+The PHP MySQL models primarily use PDO prepared statements:
 
-This makes access history queryable and provides a foundation for generating reports and performing administrative analysis.
+```php
+$query = "SELECT * FROM laboratories WHERE lab_id = ?;";
+$cursor = $cnxn->prepare($query);
+$cursor->execute([$lab_id]);
+```
 
-### Multiple identity-validation mechanisms
+This separates query structure from user-supplied values and reduces SQL-injection exposure for those operations.
 
-SIVAL separates permanent users from temporary visitors.
+### Soft Deactivation for Users
 
-Students can be validated using registered institutional information and facial recognition, while visitors can follow a QR-based temporary authorization workflow.
+Users are not permanently deleted from the database.
 
-This avoids forcing fundamentally different identity types into the same validation mechanism.
+Instead, the system maintains a:
 
-### Traceability over binary authentication
+```text
+status
+```
 
-The system does not only answer:
+attribute and deactivates users by setting it to `0`.
 
-> “Is this person authorized?”
+This preserves historical information while preventing inactive accounts from authenticating.
 
-It also records access activity.
+### Separate Visitor and Student Validation
 
-This turns identity validation into an auditable event and creates the foundation for security analysis and institutional reporting.
+SIVAL intentionally uses different access mechanisms for different identity lifecycles:
 
-### Browser-based interface
+```text
+Students → Facial Recognition
+Visitors → Temporary QR Authorization
+```
 
-The system was implemented as a web application so that access-control and administrative interfaces can be used without requiring a dedicated client application.
+Students represent persistent institutional identities, while visitors require temporary authorization.
 
 ---
 
 ## API / Data Model
 
-SIVAL 2.0 is primarily implemented as a PHP web application rather than as a standalone public REST API.
+SIVAL is not implemented as a conventional REST API.
 
-Application requests are processed through controllers, which coordinate domain operations and persistence.
+The application combines:
 
-### Conceptual domain model
+* PHP controllers.
+* PHP models.
+* MySQL queries.
+* Firebase REST operations.
+* Python Firebase clients.
+
+### MySQL Data Model
+
+The relational schema contains six main entities:
 
 ```mermaid
 erDiagram
-    STUDENT ||--o{ ACCESS_EVENT : generates
-    STUDENT ||--o{ LAB_ACCESS : generates
-    VISITOR ||--o{ VISITOR_ACCESS : receives
-    ACCESS_REQUEST ||--o| ACCESS_EVENT : produces
-
-    STUDENT {
-        int id
-        string student_number
-        string first_name
-        string last_name
-        string identity_reference
+    PERIODS {
+        int period_id PK
+        varchar period_name
+        date date_start
+        date date_finish
     }
 
-    ACCESS_EVENT {
-        int id
-        int student_id
-        datetime accessed_at
-        string access_type
+    STUDENTS {
+        int student_id PK
+        varchar enrollment
+        varchar first_name
+        varchar last_name
+        varchar career
+        int grade
+        varchar class
+        varchar period_name
+        varchar qr_data
     }
 
-    LAB_ACCESS {
-        int id
-        int student_id
-        datetime accessed_at
-        string laboratory
+    VISITORS {
+        int visitor_id PK
+        varchar visitor_fname
+        varchar last_name
+        varchar ocupation
+        varchar visit_area
+        varchar reason
+        varchar qr_data
+        varchar qr_pic
+        varchar qr_status
     }
 
-    VISITOR {
-        int id
-        string identity
-        string qr_reference
+    LABORATORIES {
+        int lab_id PK
+        varchar lab_name
+        varchar building
+        varchar floor
+        int capacity
     }
 
-    VISITOR_ACCESS {
-        int id
-        int visitor_id
-        datetime valid_from
-        datetime valid_until
+    ENTRANCES {
+        int entry_num PK
+        int student_id FK
+        int visitor_id FK
+        date entry_date
+        time entry_time
+        time exit_time
     }
 
-    ACCESS_REQUEST {
-        int id
-        string request_type
-        string status
-        datetime created_at
+    LABS_ENTRANCES {
+        int entry_num PK
+        int student_id FK
+        int visitor_id FK
+        int lab_id FK
+        date entry_date
+        time entry_time
     }
+
+    USERS {
+        int uid PK
+        varchar first_name
+        varchar last_name
+        varchar charge
+        varchar area
+        text username
+        text passwd
+        int status
+    }
+
+    STUDENTS ||--o{ ENTRANCES : generates
+    VISITORS ||--o{ ENTRANCES : generates
+
+    STUDENTS ||--o{ LABS_ENTRANCES : accesses
+    VISITORS ||--o{ LABS_ENTRANCES : accesses
+    LABORATORIES ||--o{ LABS_ENTRANCES : records
 ```
 
-> The diagram represents the high-level SIVAL domain. Exact table and column names should be checked against the SQL schema when extending the system.
+### Firebase Data
 
-### Main application flows
-
-#### Student validation
+Firebase is used for transient and distributed application state including:
 
 ```text
-Camera input
-    ↓
-Face detection / recognition
-    ↓
-Identity lookup
-    ↓
-Student validation
-    ↓
-Access authorization
-    ↓
-Access event persisted
+/recData
+/visitors
+/logs
 ```
 
-#### Visitor validation
-
-```text
-Visitor registration
-    ↓
-Temporary authorization
-    ↓
-QR credential
-    ↓
-QR validation
-    ↓
-Access event
-```
+This provides communication between the computer-vision processes and the PHP application.
 
 ---
 
@@ -303,210 +451,260 @@ Access event
 
 ### Prerequisites
 
-Install:
+You will need:
 
-* PHP 7.x
-* MySQL 5.x
-* Apache or Nginx
+* PHP 7+
+* Python 3
+* MySQL
+* Apache
+* pip
+* A Firebase project
+* Webcam access
 
-For a simple local setup, XAMPP can be used.
+XAMPP can be used for the PHP/MySQL environment.
 
 ### 1. Clone the repository
 
 ```bash
 git clone https://github.com/iAntonAMC/SIVAL2.0.git
-```
-
-### 2. Move into the project
-
-```bash
 cd SIVAL2.0
 ```
 
-### 3. Configure the web server
+### 2. Configure the database
 
-When using XAMPP, place the project inside the Apache document root.
+Create the MySQL database:
 
-For example:
-
-```text
-xampp/
-└── htdocs/
-    └── SIVAL/
+```sql
+CREATE DATABASE sival;
 ```
 
-The current application uses `/SIVAL/` as its base path.
-
-### 4. Configure MySQL
-
-Create the required MySQL database and import the SQL resources contained in the `bd/` directory.
-
-Update the application's database configuration with your local credentials.
-
-### 5. Start the services
-
-Start:
+Then execute:
 
 ```text
-Apache
-MySQL
+bd/bd_script.sql
 ```
 
-### 6. Open the application
+### 3. Install Python dependencies
 
-Navigate to:
+```bash
+cd detectors
+pip install -r requirements.txt
+```
+
+### 4. Configure Firebase
+
+Create your own Firebase project and provide its credentials through local environment configuration.
+
+**Never commit Firebase service-account credentials to Git.**
+
+Configure the application with your Firebase Realtime Database URL.
+
+### 5. Configure the PHP application
+
+The legacy implementation expects the project to be available under:
+
+```text
+/SIVAL/
+```
+
+For XAMPP:
+
+```text
+htdocs/
+└── SIVAL/
+```
+
+### 6. Start Apache and MySQL
+
+Start both services using XAMPP or your preferred local environment.
+
+### 7. Train the recognition model
+
+Create the facial dataset and train the LBPH recognizer:
+
+```bash
+python frame_maker.py
+python trainer.py
+```
+
+### 8. Start facial recognition
+
+```bash
+python face_recognizer.py
+```
+
+### 9. Run the QR scanner
+
+```bash
+python qr_detector.py
+```
+
+### 10. Open the web application
 
 ```text
 http://localhost/SIVAL/
 ```
 
-### 7. Configure camera access
-
-Allow browser camera access when testing facial-validation functionality.
-
 ---
 
 ## Testing
 
-The original SIVAL 2.0 implementation was primarily validated through end-to-end application workflows.
+The original project was primarily tested through manual end-to-end workflows rather than an automated testing suite.
 
-Important scenarios include:
+Core scenarios include:
 
-```text
-Student registration
-        ↓
-Identity registration
-        ↓
-Facial validation
-        ↓
-Authorization decision
-        ↓
-Access-event persistence
-```
-
-and:
+### Facial Recognition
 
 ```text
-Visitor registration
-        ↓
-QR generation
-        ↓
-QR validation
-        ↓
-Temporary access
+Capture face
+    ↓
+Train model
+    ↓
+Detect face
+    ↓
+Recognize student
+    ↓
+Publish Firebase event
+    ↓
+Persist MySQL entrance
 ```
 
-### Recommended automated test coverage
+### Visitor Authorization
 
-Future versions should introduce automated coverage for:
+```text
+Register visitor
+    ↓
+Generate QR credential
+    ↓
+Approve visitor
+    ↓
+Scan QR
+    ↓
+Validate against Firebase
+    ↓
+Generate access log
+```
 
-* Student CRUD operations.
-* Authentication and authorization.
+### Recommended Automated Coverage
+
+Future test coverage should include:
+
+* Authentication.
+* User CRUD operations.
+* Laboratory CRUD operations.
+* Visitor lifecycle transitions.
 * Database persistence.
-* Invalid identity attempts.
-* Facial-recognition failure scenarios.
-* Duplicate access events.
-* QR expiration.
+* Recognition-event processing.
 * Invalid QR credentials.
-* Database connectivity failures.
-* Input validation.
+* Expired QR credentials.
+* Firebase failures.
+* MySQL failures.
+* Invalid form input.
+* Authorization boundaries.
 
 ---
 
 ## Deployment
 
-SIVAL can be deployed on a conventional PHP hosting environment containing:
+The original SIVAL implementation targets a traditional local Apache/PHP/MySQL environment.
+
+A production-oriented version would separate the system into deployable components:
 
 ```text
-Web Client
-    ↓
-Apache / Nginx
-    ↓
-PHP Application
-    ↓
-MySQL
+Web Application
+├── PHP application
+└── MySQL
+
+Computer Vision Service
+├── Python
+└── OpenCV
+
+Event Infrastructure
+└── Firebase Realtime Database
 ```
 
-A production deployment should additionally introduce:
+Production deployment should additionally provide:
 
 * Environment-based configuration.
 * HTTPS.
-* Secure database credentials.
-* Restricted database permissions.
-* Application logging.
-* Server-side validation.
-* CSRF protection.
-* Secure session handling.
-* Backup policies.
+* Secret management.
+* Password hashing.
 * Database migrations.
-* CI/CD validation.
-
-Because facial information represents sensitive biometric data, a production implementation should also define explicit retention, encryption, access-control, and privacy policies.
+* Centralized logging.
+* Automated testing.
+* CI/CD.
+* Health checks.
+* Backup strategies.
+* Restricted database permissions.
 
 ---
 
 ## Challenges & Trade-offs
 
-### Facial recognition vs. traditional credentials
+### Cross-Language Integration
 
-Facial recognition can make identity validation more convenient, but introduces additional complexity involving camera quality, lighting conditions, recognition accuracy, privacy, and biometric-data management.
+The web platform and computer-vision subsystem use different languages and runtimes.
 
-### Security vs. usability
+Firebase provides a lightweight synchronization mechanism between them, but introduces another infrastructure dependency.
 
-An access-control system must make unauthorized access difficult without introducing excessive friction for legitimate students and staff.
+A modern redesign could replace this mechanism with a dedicated API, message queue, or event service.
 
-SIVAL explores this balance through automated identity validation.
+### Recognition Accuracy
 
-### Permanent users vs. temporary visitors
+LBPH is lightweight and works without specialized hardware, making it appropriate for a prototype.
 
-Students and visitors have different identity lifecycles.
+Its performance, however, depends strongly on:
 
-Using facial identity for enrolled students while providing QR-based authorization for visitors allows the application to support both workflows without requiring the same enrollment process.
+* Lighting.
+* Camera quality.
+* Training samples.
+* Facial orientation.
+* Recognition threshold.
 
-### Legacy deployment assumptions
+A production system would require systematic accuracy evaluation and stronger biometric safeguards.
 
-The current version was built around a traditional PHP/XAMPP environment and absolute `/SIVAL/` application paths.
+### Prototype Speed vs. Security
 
-This simplified the original deployment environment but reduces portability compared with environment-driven configuration or containerized deployment.
+Several implementation choices optimized development speed during the prototype and hackathon phase.
 
-### Prototype scope vs. production security
+A production version would need stronger controls around:
 
-SIVAL was developed as an academic and hackathon-oriented engineering project.
+* Credentials.
+* Password storage.
+* Firebase permissions.
+* Session management.
+* Biometric information.
+* Secrets management.
+* Input validation.
 
-A production access-control platform would require additional work around:
+### Relational Data + Realtime Events
 
-* Biometric-data security.
-* Authentication hardening.
-* Authorization policies.
-* Audit logging.
-* Error handling.
-* Automated testing.
-* Observability.
-* Scalability.
-* Regulatory and privacy compliance.
+SIVAL uses MySQL for durable institutional records while Firebase handles realtime synchronization.
+
+This provides flexibility but creates two sources of application state that must remain consistent.
 
 ---
 
 ## Results
 
-SIVAL evolved beyond a conventional CRUD academic project by integrating:
+SIVAL evolved beyond a traditional CRUD university project by integrating:
 
-* Web application development.
+* Full-stack web development.
+* Computer vision.
+* Facial recognition.
+* QR validation.
 * Relational database design.
-* Computer-vision-based identity validation.
-* QR-based temporary authorization.
+* Realtime event synchronization.
 * Access-event traceability.
-* MVC-oriented application structure.
-
-The project was also presented in competitive hackathon environments.
+* Automated Excel reporting.
 
 ### Recognition
 
-<!-- Replace these placeholders with the exact hackathon information. -->
+| Event         | Year | Result    |
+| ------------- | ---: | --------- |
+| Hackaton UTVM | 2024 | 1st Place |
 
-| Event              |   Year | Result                         |
-| ------------------ | -----: | ------------------------------ |
-| `Hackaton UTVM` | `2024` | `1st Place` |
+> Add a link to an official publication, certificate, photograph, or event announcement whenever available.
 
 ---
 
@@ -519,78 +717,87 @@ SIVAL was developed collaboratively by:
 
 ### Jesús Antonio Torres Fernández
 
-- Designed the Backend for the system
-- Developed the computer vision feature, using OpenCV on Python
-- Refactored developer guidelines
+My primary responsibilities included:
+
+* Backend design and implementation.
+* MVC-oriented application structure.
+* PHP/MySQL integration.
+* Computer-vision development using Python and OpenCV.
+* Facial-recognition pipeline implementation.
+* Engineering conventions and development guidelines.
+* System integration between application components.
+
+> This section should describe individual ownership accurately. Collaborative work should remain attributed to the team.
 
 ---
 
 ## Future Improvements
 
-### Engineering
+### Security
 
-* [ ] Upgrade the runtime to a currently supported PHP version.
-* [ ] Introduce Composer for dependency management.
-* [ ] Centralize application configuration.
-* [ ] Replace hard-coded routes with configurable base URLs.
-* [ ] Introduce environment variables with `.env.example`.
-* [ ] Add database migrations.
-* [ ] Standardize exception and error handling.
-* [ ] Introduce structured logging.
-* [ ] Add unit and integration tests.
-* [ ] Add GitHub Actions CI.
+* [ ] Revoke and remove exposed Firebase credentials.
+* [ ] Remove secrets from Git history.
+* [ ] Introduce `.env`-based configuration.
+* [ ] Hash passwords using modern password-hashing APIs.
+* [ ] Harden PHP session management.
+* [ ] Add CSRF protection.
+* [ ] Review Firebase security rules.
+* [ ] Define policies for biometric-data retention.
+
+### Backend
+
+* [ ] Upgrade to a supported PHP version.
+* [ ] Introduce Composer.
+* [ ] Add a centralized configuration layer.
+* [ ] Fix inconsistent Firebase endpoints.
+* [ ] Introduce database migrations.
+* [ ] Standardize error handling.
+* [ ] Add input validation.
+* [ ] Introduce structured application logging.
 
 ### Architecture
 
-* [ ] Separate biometric processing behind a dedicated service boundary.
-* [ ] Define a formal application/service layer.
-* [ ] Expose selected functionality through a REST API.
-* [ ] Introduce role-based access control.
-* [ ] Improve domain modeling for access policies.
+* [ ] Extract computer vision into a dedicated service.
+* [ ] Replace Firebase polling/state flags with explicit domain events.
+* [ ] Introduce a REST API.
+* [ ] Implement role-based access control.
 * [ ] Containerize the application using Docker.
+* [ ] Separate development, testing, and production environments.
 
-### Security
+### Quality
 
-* [ ] Harden authentication and session management.
-* [ ] Add CSRF protection.
-* [ ] Audit SQL queries and parameterize database operations.
-* [ ] Implement rate limiting where appropriate.
-* [ ] Encrypt sensitive data.
-* [ ] Define biometric-data retention policies.
-* [ ] Introduce audit logs for administrative actions.
+* [ ] Add PHPUnit tests.
+* [ ] Add Python unit tests.
+* [ ] Add integration tests.
+* [ ] Add GitHub Actions.
+* [ ] Add static analysis.
+* [ ] Add formatting and linting.
+* [ ] Track test coverage.
 
 ### Product
 
-* [ ] Real-time security dashboard.
+* [ ] Real-time access dashboard.
 * [ ] Configurable access policies.
 * [ ] Access analytics.
 * [ ] Daily / weekly / monthly reports.
-* [ ] Visitor credential expiration.
-* [ ] Notifications for rejected access attempts.
-* [ ] Multiple campus / building support.
+* [ ] Visitor expiration timestamps.
+* [ ] Alerts for rejected access attempts.
+* [ ] Multi-campus support.
 
 ---
 
 ## Authors
 
 **Jesús Antonio Torres Fernández**
-GitHub: [@iAntonAMC](https://github.com/iAntonAMC)
+[@iAntonAMC](https://github.com/iAntonAMC)
 
 **José Rolando Granados Rivera**
-GitHub: [@GRJR1325](https://github.com/GRJR1325)
+[@GRJR1325](https://github.com/GRJR1325)
 
 ---
 
 ## License
 
-This project is distributed under the MIT License.
+Distributed under the MIT License.
 
-See [`LICENSE`](LICENSE) for more information.
-
----
-
-## Project Demo
-
-**SIVAL — Sistema de Validación del Alumnado**
-
-[▶ Watch the project demonstration](https://youtu.be/bDrF3uBNPPU)
+See [`LICENCE`](LICENCE) for details.
